@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-@TeleOp(name = "Field Centric Mecanum")
+@TeleOp(name = "Field Centric Mecanum", group="Mecanum Drive Trains 2023-2024")
 public class FieldCentricMecanumOp extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
