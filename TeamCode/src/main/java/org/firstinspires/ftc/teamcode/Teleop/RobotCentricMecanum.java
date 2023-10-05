@@ -9,12 +9,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="Robot Centric Mecanum", group="Mecanum Drive Trains 2023-2024")
 public class RobotCentricMecanum extends LinearOpMode {
 
-    private  ElapsedTime runtime = new ElapsedTime();
-    private DcMotor rightFrontDrive;
-    private DcMotor rightBackDrive;
-    private DcMotor leftFrontDrive;
-    private DcMotor leftBackDrive;
-    private double strafeOffset = 1.1; // Used to help counteract imperfect straifing.
+    private final ElapsedTime runtime = new ElapsedTime();
+    private static DriveMode current_drive_mode = DriveMode.DEFAULT_DRIVE;
+    // Settings
+    private final double STRAIF_OFFSET = 1.1; // Used to help counteract imperfect straifing.
+
 
     @Override
     public void runOpMode() {
@@ -24,17 +23,17 @@ public class RobotCentricMecanum extends LinearOpMode {
         telemetry.update();
 
         // Initialize Hardware Values
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
-        rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
-        leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
-        leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
+        DcMotor rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
+        DcMotor rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+        DcMotor leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
+        DcMotor leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
 
         // Note: Most motors have one side reverse.
         // Due to this, we need to reverse one side of the motors so that the robot can drive straight.
-        rightFrontDrive.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightBackDrive.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftFrontDrive.setDirection(DcMotorSimple.Direction.FORWARD);
-        leftBackDrive.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightFrontDrive.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightBackDrive.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftFrontDrive.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBackDrive.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Wait for the player to press the play button.
         waitForStart();
@@ -43,11 +42,27 @@ public class RobotCentricMecanum extends LinearOpMode {
         // Runs while the opmode is active.
         while (opModeIsActive()) {
 
+            // Sets the drive mode to precise drive. (Goes 4* slower than default)
+            // However, if the robot is already in precise drive, the it reverts to default drive.
+            if (gamepad1.left_bumper) {
+                current_drive_mode = updateDriveMode(DriveMode.PRECISE_DRIVE);
+            }
+
+            // Sets the drive mode to sensitive drive. (Always goes max speed)
+            // However, if the robot is already in sensitive drive, the it reverts to default drive.
+            if (gamepad1.right_bumper) {
+                current_drive_mode = updateDriveMode(DriveMode.SENSITIVE_DRIVE);
+            }
+
+            // Get the speed multiplier of the current drive mode.
+            double speedMultiplier = current_drive_mode.speedMultiplier();
+
             // Use some math that I 100% didn't steal to
             // calculate how the mecanum wheels will work.
-            double left_stick_y = -gamepad1.left_stick_y; // (The Y is reversed, so we have to multiply it by -1)
-            double left_stick_x = gamepad1.left_stick_x * strafeOffset;
-            double right_stick_x = gamepad1.right_stick_x;
+            // Multiply by the speedMultiplier to make the robot go faster or slower based on the current drive mode.
+            double left_stick_y = -gamepad1.left_stick_y * speedMultiplier; // (The Y is reversed, so we have to multiply it by -1)
+            double left_stick_x = gamepad1.left_stick_x * STRAIF_OFFSET * speedMultiplier;
+            double right_stick_x = gamepad1.right_stick_x * speedMultiplier;
 
             // Ensure that all powers maintain a consistent ratio.
             // This is required since all values are capped at 1.
@@ -62,5 +77,22 @@ public class RobotCentricMecanum extends LinearOpMode {
             leftFrontDrive.setPower(leftFrontPower);
             leftBackDrive.setPower(leftBackPower);
         }
-    }   
+    }
+
+    // Set the drive mode of the robot.
+    // This determines how far the user has to move the joystick to make the robot g otop speed.
+    public static DriveMode updateDriveMode(DriveMode drive_mode) {
+
+        // Initialize local variable
+        DriveMode newDriveMode;
+
+        // Check if drive_mode is the same as the current drive mode.
+        if (drive_mode == current_drive_mode) {
+            newDriveMode = DriveMode.DEFAULT_DRIVE;
+        } else {
+            newDriveMode = drive_mode;
+        }
+
+        return newDriveMode;
+    }
 }
