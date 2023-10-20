@@ -1,21 +1,38 @@
-package org.firstinspires.ftc.teamcode.Teleop;
+package org.firstinspires.ftc.teamcode.RobotSystem;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+
 public class RobotHardware {
 
     // Declare Hardware Variables.
     private LinearOpMode myOpMode = null;
+    public Vision aprilTagDetection = null;
+    public LinearSlide linearSlide = null;
+    public Manipulator manipulator = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
     private DcMotor leftFrontDrive = null;
     private DcMotor leftBackDrive = null;
-
     private DriveMode current_drive_mode = DriveMode.DEFAULT_DRIVE;
+
+    // Autonomous coordinate variables
+    private double lastRightFrontPosition = 0;
+    private double lastRightBackPosition = 0;
+    private double lastLeftFrontPosition = 0;
+    private double lastLeftBackPosition = 0;
+    private double robotX = 0;
+    private double robotY = 0;
+
     public static final double STRAIF_OFFSET = 1.1;
-    public RobotHardware (LinearOpMode opMode) {this.myOpMode = opMode; }
+    public static final double TICKS_PER_INCH = 57.953;
+    public static final double CAMERA_OFFSET = -5.9375;
+
+
+    public RobotHardware (LinearOpMode opMode) { this.myOpMode = opMode; }
 
     public void init() {
 
@@ -25,6 +42,17 @@ public class RobotHardware {
         leftFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "left_front_drive");
         leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "left_back_drive");
 
+        // Run all motors using RUN_WITH_ENCODER so that we can use encoder related methods.
+        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         // Note: Most motors have one side reverse.
         // Due to this, we need to reverse one side of the motors so that the robot can drive straight.
         rightFrontDrive.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -32,8 +60,49 @@ public class RobotHardware {
         leftFrontDrive.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        // Initialize Subsystems
+        linearSlide = new LinearSlide(myOpMode);
+        linearSlide.init();
+
+        manipulator = new Manipulator(myOpMode);
+        manipulator.init();
+
+        aprilTagDetection = new Vision(myOpMode);
+        aprilTagDetection.init();
+
         // Tell the user that the hardware has been initialized.
-        myOpMode.telemetry.addData(">", "Hardware Initialized");
+        myOpMode.telemetry.addData("---->", "Hardware Initialized");
+        myOpMode.telemetry.update();
+    }
+
+    public void updateRobotPosition() {
+
+        // Calculate change in encoder positions
+        double changeRightFront = rightFrontDrive.getCurrentPosition() - lastRightFrontPosition;
+        double changeRightBack = rightBackDrive.getCurrentPosition() - lastRightBackPosition;
+        double changeLeftFront = leftFrontDrive.getCurrentPosition() - lastLeftFrontPosition;
+        double changeLeftBack = leftBackDrive.getCurrentPosition() - lastLeftBackPosition;
+
+        // Calculate average offset
+        double forwardsBackwardsChange = (changeRightFront + changeRightBack + changeLeftFront + changeLeftBack) / 4;
+        double leftRightChange = ( (changeLeftFront + changeRightBack) - (changeLeftBack + changeRightFront)) / 4;
+
+        // Convert the above values to inches
+        double yChange = forwardsBackwardsChange / TICKS_PER_INCH;
+        double xChange = leftRightChange / TICKS_PER_INCH;
+
+        // Update Position
+        robotY = robotY + yChange;
+        robotX = robotX + xChange;
+        lastRightFrontPosition = rightFrontDrive.getCurrentPosition();
+        lastRightBackPosition = rightBackDrive.getCurrentPosition();
+        lastLeftFrontPosition = leftFrontDrive.getCurrentPosition();
+        lastLeftBackPosition = leftBackDrive.getCurrentPosition();
+
+        // Tell the user what the new positions are
+        myOpMode.telemetry.addLine("------ Robot Position Data ------");
+        myOpMode.telemetry.addData("Robot X", robotX +" in");
+        myOpMode.telemetry.addData("Robot Y", robotY + "in");
         myOpMode.telemetry.update();
     }
 
@@ -84,6 +153,9 @@ public class RobotHardware {
         rightBackDrive.setPower(rightBackPower);
         leftFrontDrive.setPower(leftFrontPower);
         leftBackDrive.setPower(leftBackPower);
+
+        // Update Position
+        updateRobotPosition();
     }
 
     /**
