@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.RobotSystem.Subsystems;
+package org.firstinspires.ftc.teamcode.RobotSystems.Subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.RobotSystem.Subsystems.SubsystemEnums.LinearSlideStage;
+import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.SubsystemEnums.LinearSlideStage;
 
 public class LinearSlide {
 

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.RobotSystem.Subsystems.SubsystemEnums;
+package org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.SubsystemEnums;
 
 public enum LinearSlideStage {          // Note:500 good starting distance for auto
     GROUND_STAGE (0),

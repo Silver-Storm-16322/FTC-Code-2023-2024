@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1cabc6cd-c927-46f1-a241-3915c9ce464e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/runtime_library_classes_dir/debug/org/firstinspires/ftc/robotcontroller/external/samples/ConceptTensorFlowObjectDetectionSwitchableCameras.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/runtime_library_classes_dir/debug/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity$SharedPreferencesListener.class" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\camer\.android\avd\Pixel_3a_API_33_x86_64.avd]" />
+  <component name="TaskManager">
+    <servers />
+  </component>
+</project>

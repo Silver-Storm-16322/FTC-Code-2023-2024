@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.RobotSystem;
+package org.firstinspires.ftc.teamcode.RobotSystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.RobotSystem.Subsystems.DriveTrain;
-import org.firstinspires.ftc.teamcode.RobotSystem.Subsystems.LinearSlide;
-import org.firstinspires.ftc.teamcode.RobotSystem.Subsystems.Manipulator;
-import org.firstinspires.ftc.teamcode.RobotSystem.Subsystems.Vision;
+import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.LinearSlide;
+import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.Manipulator;
+import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.Vision;
 
 public class RobotHardware {
 

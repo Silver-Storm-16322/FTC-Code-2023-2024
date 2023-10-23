@@ -3,9 +3,9 @@ package org.firstinspires.ftc.teamcode.Teleop;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.RobotSystem.Subsystems.SubsystemEnums.DriveMode;
-import org.firstinspires.ftc.teamcode.RobotSystem.Subsystems.SubsystemEnums.LinearSlideStage;
-import org.firstinspires.ftc.teamcode.RobotSystem.RobotHardware;
+import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.SubsystemEnums.DriveMode;
+import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.SubsystemEnums.LinearSlideStage;
+import org.firstinspires.ftc.teamcode.RobotSystems.RobotHardware;
 
 @TeleOp(name="Robot Centric Mecanum", group="Mecanum Drive Trains 2023-2024")
 public class RobotCentricMecanum extends LinearOpMode {
