@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode.Teleop;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.RobotSystem.DriveMode;
-import org.firstinspires.ftc.teamcode.RobotSystem.LinearSlideStage;
+import org.firstinspires.ftc.teamcode.RobotSystem.Subsystems.SubsystemEnums.DriveMode;
+import org.firstinspires.ftc.teamcode.RobotSystem.Subsystems.SubsystemEnums.LinearSlideStage;
 import org.firstinspires.ftc.teamcode.RobotSystem.RobotHardware;
 
 @TeleOp(name="Robot Centric Mecanum", group="Mecanum Drive Trains 2023-2024")
@@ -47,19 +47,19 @@ public class RobotCentricMecanum extends LinearOpMode {
             // Sets the drive mode to precise drive. (Goes 4* slower than default)
             // However, if the robot is already in precise drive, the it reverts to default drive.
             if (gamepad1.left_bumper) {
-                robot.setDriveMode(DriveMode.PRECISE_DRIVE);
+                robot.driveTrain.setDriveMode(DriveMode.PRECISE_DRIVE);
             }
 
             // Sets the drive mode to sensitive drive. (Always goes max speed)
             // However, if the robot is already in sensitive drive, the it reverts to default drive.
             if (gamepad1.right_bumper) {
-                robot.setDriveMode(DriveMode.SENSITIVE_DRIVE);
+                robot.driveTrain.setDriveMode(DriveMode.SENSITIVE_DRIVE);
             }
 
             // left_stick_y is forwards and backwards,
             // left_stick_x is left and right, and right_stick_x is the rotation
             // Note: Pass through the opposite of left stick y because it is reversed
-            robot.driveRobot(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+            robot.driveTrain.driveRobot(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
         }
     }
 }

@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.RobotSystem.RobotHardware;
-import org.firstinspires.ftc.teamcode.RobotSystem.Vision;
+import org.firstinspires.ftc.teamcode.RobotSystem.Subsystems.Vision;
 
 @TeleOp(name="Drive To April Tags Test", group="System Tests")
 public class DriveToAprilTagTest extends LinearOpMode {
