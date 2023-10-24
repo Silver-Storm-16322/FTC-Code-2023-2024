@@ -1,131 +1,99 @@
-## TeamCode Module
+# RobotHardware #
+This class serves as an initializer and access point for all of the hardware components on the robot, such as
+[DriveTrain][1], [LinearSlides][2], [Manipulator][3], and [Vision][4] system. Its purpose is to simplify the process
+of creating and modifying robot hardware in OpModes. Instead of manually redeclaring hardware variables for each
+OpMode, you can simply just create a RobotHardware object to quickly set up all hardware components. This approach
+expedites the initialization process and facilitates easy modifications, allowing changes across multiple
+OpModes by simply adjusting the HardwareMap class, rather than having to modify individual OpMode variables.
 
-Welcome!
+## Fields ##
+### myOpMode ###
+`private LinearOpMode myOpMode`
 
-This module, TeamCode, is the place where you will write/paste the code for your team's
-robot controller App. This module is currently empty (a clean slate) but the
-process for adding OpModes is straightforward.
+This value is the OpMode that the RobotHardware was created in. It is passed to the object when it is initially created
+via the object's constructor. This is beneficiary as it allows the RobotHardware object to access the Telemetry and
+HardwareMap of the OpMode it was created in, which allows the RobotHardware to actually initialize the robot's hardware.
 
-## Creating your own OpModes
+### driveTrain ###
+`public DriveTrain driveTrain`
 
-The easiest way to create your own OpMode is to copy a Sample OpMode and make it your own.
+An object used to store all of the DriveTrain's hardware and methods. This value is null until `init()` is called,  
+since that is where this value is initialized.  
+(See [DriveTrain](#driveTrainClassRef) for more info)
 
-Sample opmodes exist in the FtcRobotController module.
-To locate these samples, find the FtcRobotController module in the "Project/Android" tab.
+### linearSlide ###
+`public LinearSlide linearSlide`
 
-Expand the following tree elements:
- FtcRobotController/java/org.firstinspires.ftc.robotcontroller/external/samples
+An object used to store all of the LinearSlide's hardware and methods. This value is null until `init()` is called,  
+since that is where this value is initialized.  
+(See [LinearSlide](#linearSlideClassRef) for more info)
 
-### Naming of Samples
+### manipulator ###
+`public Manipulator manipulator`
 
-To gain a better understanding of how the samples are organized, and how to interpret the
-naming system, it will help to understand the conventions that were used during their creation.
+An object used to store all of the Manipulator's hardware and methods. This value is null until `init()` is called,  
+since that is where this value is initialized.  
+(See [Manipulator](#manipulatorClassReff) for more info)
 
-These conventions are described (in detail) in the sample_conventions.md file in this folder.
+### aprilTagDetection ###
+`public Vision aprilTagDetection`
 
-To summarize: A range of different samples classes will reside in the java/external/samples.
-The class names will follow a naming convention which indicates the purpose of each class.
-The prefix of the name will be one of the following:
+An object used to store all of the  hardware and methods. This value is null until `init()` is called,  
+since that is where this value is initialized.  
+(See [Vision](#visionClassRef) for more info)
+## Methods ##
+### init() ###
+`public init()`
 
-Basic:  	This is a minimally functional OpMode used to illustrate the skeleton/structure
-            of a particular style of OpMode.  These are bare bones examples.
+This method calls all of the initialization methods of all of the hardware on the robot, which gives the OpMode
+access to all of the above listed classes. Additionally, this method will tell the user via the telemetry that
+the hardware has been successfully initialized viw the Telemetry on the DriverHub.
 
-Sensor:    	This is a Sample OpMode that shows how to use a specific sensor.
-            It is not intended to drive a functioning robot, it is simply showing the minimal code
-            required to read and display the sensor values.
+<br/>
+<br/>
+<br/>
 
-Robot:	    This is a Sample OpMode that assumes a simple two-motor (differential) drive base.
-            It may be used to provide a common baseline driving OpMode, or
-            to demonstrate how a particular sensor or concept can be used to navigate.
+<div id="driveTrainClassRef"></div>
 
-Concept:	This is a sample OpMode that illustrates performing a specific function or concept.
-            These may be complex, but their operation should be explained clearly in the comments,
-            or the comments should reference an external doc, guide or tutorial.
-            Each OpMode should try to only demonstrate a single concept so they are easy to
-            locate based on their name.  These OpModes may not produce a drivable robot.
+# DriveTrain #
+This class serves as a container for all of the DriveTrain's hardware and methods.
+<br/>
+<br/>
+<br/>
 
-After the prefix, other conventions will apply:
+# CoordinateSystem #
+This class is used by the [DriveTrain][1] class in order to keep track of the robot's position the field.
+The reason that a coordinate system is useful in the first place is because it makes writing autonomous code
+significantly easier. The reason we don't just make this part of the [DriveTrain][1] class is because it makes the
+code cleaner and overall easier to work with.
 
-* Sensor class names are constructed as:    Sensor - Company - Type
-* Robot class names are constructed as:     Robot - Mode - Action - OpModetype
-* Concept class names are constructed as:   Concept - Topic - OpModetype
+## Methods ##
+### updateRobotPosition() ###
+`public void updateRobotPosition(double currentRightFrontPosition, double currentRightBackPosition,
+&nbsp; double currentLeftFrontPosition, double currentLeftBackPosition)`
 
-Once you are familiar with the range of samples available, you can choose one to be the
-basis for your own robot.  In all cases, the desired sample(s) needs to be copied into
-your TeamCode module to be used.
+This method is used to update the robot's position on the X and Y axis based on the provided changes in
+all of the [DriveTrain's][1] motor's encoder count. Then, after figuring out the change in each motor's
+encoder counts we calculate how far the robot moved across the X and Y axis using the below equations:
 
-This is done inside Android Studio directly, using the following steps:
+*xChange = $\frac{(leftFrontChange + rightBackChange) - (leftBackChange + rightFrontChange)}{4}$*
 
- 1) Locate the desired sample class in the Project/Android tree.
+*yChange = $\frac{rightFrontChange + rightBackChange + leftFrontChange + leftBackChange}{4}$*
 
- 2) Right click on the sample class and select "Copy"
+Then, we convert the X and Y changes to inches by dividing them by the amount of encoder ticks per inch
+(In this case 57.953). The reason that we convert the values to inches is to make debugging easier as it is easier
+to measure a distance in inches as opposed to encoder counts. Upon converting the changes to inches, we add the X and
+Y changes to the robot's position. Lastly, we set the robot's last position as its current position to allow this
+method to be used again.
 
- 3) Expand the  TeamCode/java folder
+### getPosition() ###
+`public double[] getPosition()`
 
- 4) Right click on the org.firstinspires.ftc.teamcode folder and select "Paste"
+This method returns an array containing the robot's X and Y coordinates (in inches).
 
- 5) You will be prompted for a class name for the copy.
-    Choose something meaningful based on the purpose of this class.
-    Start with a capital letter, and remember that there may be more similar classes later.
-
-Once your copy has been created, you should prepare it for use on your robot.
-This is done by adjusting the OpMode's name, and enabling it to be displayed on the
-Driver Station's OpMode list.
-
-Each OpMode sample class begins with several lines of code like the ones shown below:
-
-```
- @TeleOp(name="Template: Linear OpMode", group="Linear Opmode")
- @Disabled
-```
-
-The name that will appear on the driver station's "opmode list" is defined by the code:
- ``name="Template: Linear OpMode"``
-You can change what appears between the quotes to better describe your opmode.
-The "group=" portion of the code can be used to help organize your list of OpModes.
-
-As shown, the current OpMode will NOT appear on the driver station's OpMode list because of the
-  ``@Disabled`` annotation which has been included.
-This line can simply be deleted , or commented out, to make the OpMode visible.
-
-
-
-## ADVANCED Multi-Team App management:  Cloning the TeamCode Module
-
-In some situations, you have multiple teams in your club and you want them to all share
-a common code organization, with each being able to *see* the others code but each having
-their own team module with their own code that they maintain themselves.
-
-In this situation, you might wish to clone the TeamCode module, once for each of these teams.
-Each of the clones would then appear along side each other in the Android Studio module list,
-together with the FtcRobotController module (and the original TeamCode module).
-
-Selective Team phones can then be programmed by selecting the desired Module from the pulldown list
-prior to clicking to the green Run arrow.
-
-Warning:  This is not for the inexperienced Software developer.
-You will need to be comfortable with File manipulations and managing Android Studio Modules.
-These changes are performed OUTSIDE of Android Studios, so close Android Studios before you do this.
- 
-Also.. Make a full project backup before you start this :)
-
-To clone TeamCode, do the following:
-
-Note: Some names start with "Team" and others start with "team".  This is intentional.
-
-1)  Using your operating system file management tools, copy the whole "TeamCode"
-    folder to a sibling folder with a corresponding new name, eg: "Team0417".
-
-2)  In the new Team0417 folder, delete the TeamCode.iml file.
-
-3)  the new Team0417 folder, rename the "src/main/java/org/firstinspires/ftc/teamcode" folder
-    to a matching name with a lowercase 'team' eg:  "team0417".
-
-4)  In the new Team0417/src/main folder, edit the "AndroidManifest.xml" file, change the line that contains
-         package="org.firstinspires.ftc.teamcode"
-    to be
-         package="org.firstinspires.ftc.team0417"
-
-5)  Add:    include ':Team0417' to the "/settings.gradle" file.
-    
-6)  Open up Android Studios and clean out any old files by using the menu to "Build/Clean Project""
+[1]: RobotSystems/Subsystems/DriveTrain.java
+[1.1]: RobotSystems/Subsystems/SubsystemEnums/DriveMode.java
+[2]: RobotSystems/Subsystems/LinearSlides.java
+[2.1]: RobotSystems/Subsystems/SubsystemEnums/LinearSlideStage.java
+[3]: RobotSystems/Subsystems/Manipulator.java
+[4]: RobotSystems/Subsystems/Vision.java

@@ -36,34 +36,10 @@ public class CoordinateSystem {
         double yChange = forwardsBackwardsChange / TICKS_PER_INCH;
 
         // Update robot position
-        updateRobotPosition(xChange, yChange);
+        robotX += xChange;
+        robotY += yChange;
 
         // Update last position
-        updateLastPositions(currentRightFrontPosition, currentRightBackPosition,
-                currentLeftFrontPosition, currentLeftBackPosition);
-    }
-
-    /**
-     * Updates the robot's position (x,y) based on the provided change in the X and Y of the robot.
-     *
-     * @param xChangeInches;        The amount of inches the robot moved along the X-axis
-     * @param yChangeInches;        The amount of inches the robot moved along the Y-axis
-     */
-    private void updateRobotPosition(double xChangeInches, double yChangeInches) {
-        robotX += xChangeInches;
-        robotY += yChangeInches;
-    }
-
-    /**
-     * Sets the robot's current position to the robots last position (In encoder counts)
-     *
-     * @param currentRightFrontPosition;        The current position (encoder counts) of the RightFrontMotor
-     * @param currentRightBackPosition;         The current position (encoder counts) of the RightBackMotor
-     * @param currentLeftFrontPosition;         The current position (encoder counts) of the LeftFrontMotor
-     * @param currentLeftBackPosition;          The current position (encoder counts) of the LeftBackMotor
-     */
-    private void updateLastPositions(double currentRightFrontPosition, double currentRightBackPosition,
-                                     double currentLeftFrontPosition, double currentLeftBackPosition) {
         lastRightFrontPosition = currentRightFrontPosition;
         lastRightBackPosition = currentRightBackPosition;
         lastLeftFrontPosition = currentLeftFrontPosition;
@@ -75,7 +51,8 @@ public class CoordinateSystem {
      *
      * @return      Returns an array containing the robot's X and Y position (In inches)
      */
-    public double[] getPositionInInches() {
+    public double[] getPosition() {
         return new double[]{robotX, robotY};
     }
+
 }
