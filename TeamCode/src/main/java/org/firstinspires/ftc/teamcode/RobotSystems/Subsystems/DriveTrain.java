@@ -106,6 +106,14 @@ public class DriveTrain {
         // Update coordinate position
         coordinateSystem.updateRobotPosition(rightFrontDrive.getCurrentPosition(), rightBackDrive.getCurrentPosition(),
                 leftFrontDrive.getCurrentPosition(), leftBackDrive.getCurrentPosition());
+
+        // Tell the user their position
+        double[] robotPosition = coordinateSystem.getPosition();
+
+        robotTelemetry.addLine("---Robot Position---");
+        robotTelemetry.addData("Robot X", robotPosition[0]);
+        robotTelemetry.addData("Robot Y", robotPosition[1]);
+        robotTelemetry.update();
     }
 
     /**

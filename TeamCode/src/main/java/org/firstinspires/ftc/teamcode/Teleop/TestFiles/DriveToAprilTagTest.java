@@ -10,12 +10,12 @@ import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.Vision;
 public class DriveToAprilTagTest extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(this);
-    Vision aprilTagDetection = new Vision(this);
+    // Vision aprilTagDetection = new Vision(this);
     @Override
     public void runOpMode() {
 
         // Initialize the robot and april tags.
-        aprilTagDetection.init();
+        // aprilTagDetection.init();
         robot.init();
 
         // Wait for the player to press the play button.

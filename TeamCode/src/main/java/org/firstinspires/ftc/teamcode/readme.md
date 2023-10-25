@@ -56,10 +56,26 @@ the hardware has been successfully initialized viw the Telemetry on the DriverHu
 <div id="driveTrainClassRef"></div>
 
 # DriveTrain #
-This class serves as a container for all of the DriveTrain's hardware and methods.
+This class serves as a container for all of the DriveTrain's hardware and methods. 
+
+## Fields ##
+### cordinateSystem ###
+`public CoordinateSystem cordinateSystem`
+
+An object used to keep track of the robot's position on the field. This value is null until `init()` is called,  
+since that is where this value is initialized.
+(See [CoordinateSystem]["#coordinateSystemClassReference] for more info)
+
+### cordinateSystem ###
+`public CoordinateSystem cordinateSystem`
+
+An object used to keep track of the robot's position on the field. This value is null until `init()` is called,  
+since that is where this value is initialized.
 <br/>
 <br/>
 <br/>
+
+<div id="coordinateSystemClassReference"></div>
 
 # CoordinateSystem #
 This class is used by the [DriveTrain][1] class in order to keep track of the robot's position the field.
