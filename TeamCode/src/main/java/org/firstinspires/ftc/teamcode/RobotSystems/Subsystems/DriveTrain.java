@@ -47,6 +47,7 @@ public class DriveTrain {
 
         // Initialize Coordinate System
         coordinateSystem = new CoordinateSystem();
+        coordinateSystem.initializeImu(hardwareMap);
 
         // Allows this drivetrain to communicate with the user.
         robotTelemetry = telemetry;
