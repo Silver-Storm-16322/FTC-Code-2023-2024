@@ -34,7 +34,7 @@ public class LinearSlide {
     /**
      * Adjusts the LinearSlide's stage which changes the target position of the motor.
      *
-     * @param newStage;    The stage the user wants the LinearSlide to go up/down to.
+     * @param newStage The stage the user wants the LinearSlide to go up/down to.
      */
     public void setStage(LinearSlideStage newStage) {
 

@@ -59,9 +59,9 @@ public class DriveTrain {
      * Calculates the powers for the motors to achieve the requested
      * motion: Drive front and back, and robot rotation.
      *
-     * @param driveFrontBack;      Determines how far forwards or backwards the robot has to move.
-     * @param driveLeftRight;      Determines how far left or right the robot moves.
-     * @param rotation;            Determines how much the robot should turn.
+     * @param driveFrontBack Determines how far forwards or backwards the robot has to move.
+     * @param driveLeftRight Determines how far left or right the robot moves.
+     * @param rotation Determines how much the robot should turn.
      **/
     public void driveRobot(double driveFrontBack, double driveLeftRight, double rotation) {
 
@@ -90,10 +90,10 @@ public class DriveTrain {
     /**
      * Apply the specified power levels to their associated motors. Allows the robot to move and rotate.
      *
-     * @param rightFrontPower;      The power that will be applied to the right front motor.
-     * @param rightBackPower;       The power that will be applied to the right back motor.
-     * @param leftFrontPower;       The power that will be applied to the left front  motor.
-     * @param leftBackPower;        The power that will be applied to the left back  motor.
+     * @param rightFrontPower The power that will be applied to the right front motor.
+     * @param rightBackPower The power that will be applied to the right back motor.
+     * @param leftFrontPower The power that will be applied to the left front  motor.
+     * @param leftBackPower The power that will be applied to the left back  motor.
      */
     public void setDrivePower(double rightFrontPower, double rightBackPower, double leftFrontPower, double leftBackPower) {
 
@@ -237,7 +237,7 @@ public class DriveTrain {
      * However, if the button pressed attempts to set the robots mode to the same mode it already
      * in, then reset the mode to default.
      *
-     * @param drive_mode;       The drive mode the user wants to change the robot to.
+     * @param drive_mode The drive mode the user wants to change the robot to.
      */
     public void setDriveMode(DriveMode drive_mode) {
 

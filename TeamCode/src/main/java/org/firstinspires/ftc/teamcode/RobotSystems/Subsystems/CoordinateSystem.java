@@ -22,7 +22,7 @@ public class CoordinateSystem {
      * Initializes the imu so that we can keep track of the robot's rotation and use said rotation
      * when calculating the robot's positional change.
      *
-     * @param hardwareMap;  Allows the robot to gain access to its hardware. (It errors if we don't do this)
+     * @param hardwareMap Allows the robot to gain access to its hardware. (It errors if we don't do this)
      */
     public void initializeImu(HardwareMap hardwareMap) {
 
@@ -42,10 +42,10 @@ public class CoordinateSystem {
     /**
      * Updates the robot's (X, Y) position based on the change in encoder counts across all motors.
      *
-     * @param currentRightFrontPosition;        The current position (encoder counts) of the RightFrontMotor
-     * @param currentRightBackPosition;         The current position (encoder counts) of the RightBackMotor
-     * @param currentLeftFrontPosition;         The current position (encoder counts) of the LeftFrontMotor
-     * @param currentLeftBackPosition;          The current position (encoder counts) of the LeftBackMotor
+     * @param currentRightFrontPosition The current position (encoder counts) of the RightFrontMotor
+     * @param currentRightBackPosition The current position (encoder counts) of the RightBackMotor
+     * @param currentLeftFrontPosition The current position (encoder counts) of the LeftFrontMotor
+     * @param currentLeftBackPosition The current position (encoder counts) of the LeftBackMotor
      */
     public void updateRobotPosition(double currentRightFrontPosition, double currentRightBackPosition,
                                     double currentLeftFrontPosition, double currentLeftBackPosition) {
@@ -88,10 +88,10 @@ public class CoordinateSystem {
     /**
      * Calculates the distance from the robot's current position to the provided target location.
      *
-     * @param targetX;              The X position you want the robot move to.
-     * @param targetY;              The Y position you want the robot to move to.
-     * @param targetRotation;       The direction you want the robot to be facing by the end of the movement.
-     * @return;                     Returns and array containing the distance to all of the desired coordinates.
+     * @param targetX The X position you want the robot move to.
+     * @param targetY The Y position you want the robot to move to.
+     * @param targetRotation The direction you want the robot to be facing by the end of the movement.
+     * @return Returns and array containing the distance to all of the desired coordinates.
      */
     public double[] getDistanceToPosition(double targetX, double targetY, double targetRotation) {
 
@@ -119,7 +119,7 @@ public class CoordinateSystem {
     /**
      * Returns an array containing the robot's X and Y position (In inches)
      *
-     * @return      Returns an array containing the robot's X and Y position (In inches) and rotation )in radians)
+     * @return Returns an array containing the robot's X and Y position (In inches) and rotation )in radians)
      */
     public double[] getPosition() {
         return new double[]{robotX, robotY, robotRotation};
