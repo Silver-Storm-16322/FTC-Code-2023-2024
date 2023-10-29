@@ -1,14 +1,14 @@
 package org.firstinspires.ftc.teamcode.RobotSystems.Subsystems;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.SubsystemEnums.DriveMode;
 
 public class DriveTrain {
-    private Telemetry robotTelemetry = null;
+    private LinearOpMode myOpMode = null;
     public CoordinateSystem coordinateSystem = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
@@ -18,13 +18,15 @@ public class DriveTrain {
     public static final double STRAIF_OFFSET = 1.1;
     public static final double CAMERA_OFFSET = -5.9375;
 
-    public void init(HardwareMap hardwareMap, Telemetry telemetry) {
+    public DriveTrain(LinearOpMode opMode) {myOpMode = opMode; }
+
+    public void init() {
 
         // Initialize hardware values
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
-        rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
-        leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
-        leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
+        rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "right_front_drive");
+        rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "right_back_drive");
+        leftFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "left_front_drive");
+        leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "left_back_drive");
 
         // Run all motors using RUN_WITH_ENCODER so that we can use encoder related methods.
         // Commented out for bug testing purposes.
@@ -47,13 +49,10 @@ public class DriveTrain {
 
         // Initialize Coordinate System
         coordinateSystem = new CoordinateSystem();
-        coordinateSystem.initializeImu(hardwareMap);
-
-        // Allows this drivetrain to communicate with the user.
-        robotTelemetry = telemetry;
+        coordinateSystem.initializeImu(myOpMode.hardwareMap);
 
         // Tell the user that this subsystem has been successfully initialized.
-        robotTelemetry.addData("->", "DriveTrain successfully initialized");
+        myOpMode.telemetry.addData("->", "DriveTrain successfully initialized");
     }
 
     /**
@@ -108,13 +107,129 @@ public class DriveTrain {
         coordinateSystem.updateRobotPosition(rightFrontDrive.getCurrentPosition(), rightBackDrive.getCurrentPosition(),
                 leftFrontDrive.getCurrentPosition(), leftBackDrive.getCurrentPosition());
 
-        // Tell the user their position
+       // Tell the user what position the robot is located at.
+        displayRobotPosition();
+    }
+
+    /**
+     * Drives the robot to the specified position and rotation in the coordinate system.
+     *
+     * @param targetXPosition The target X-coordinate in inches.
+     * @param targetYPosition The target Y-coordinate in inches.
+     * @param targetRotation The target rotation in degrees.
+     */
+    public void driveRobotToPosition(double targetXPosition, double targetYPosition, double targetRotation) {
+
+        // Convert target rotation to radians.
+        double targetRotationRadians = Math.toRadians(targetRotation);
+
+        // Get distance to target from robot's coordinate system.
+        double[] targetPosition = coordinateSystem.getDistanceToPosition(targetXPosition, targetYPosition, targetRotationRadians);
+
+        // Convert position to encoder counts.
+        double targetXDistance = targetPosition[0] * CoordinateSystem.TICKS_PER_INCH;
+        double targetYDistance = targetPosition[1] * CoordinateSystem.TICKS_PER_INCH;
+
+        // Rotate the target position values so that they are independent from the rotation.
+        double rotatedTargetXDistance = targetXDistance * Math.cos(-targetPosition[2]) - targetYDistance * Math.sin(-targetPosition[2]);
+        double rotatedTargetYDistance = targetXDistance * Math.sin(-targetPosition[2]) + targetYDistance * Math.cos(-targetPosition[2]);
+
+        // Move robot to the rotated position.
+        setTargetPosition(rotatedTargetXDistance, rotatedTargetYDistance);
+    }
+
+    /**
+     * Moves the robot to a specified target position.
+     *
+     * @param targetX The target X-coordinate.
+     * @param targetY The target Y-coordinate.
+     */
+    private void setTargetPosition(double targetX, double targetY) {
+
+        // Calculate encoder changes for each individual motor
+        int rightFrontTarget = rightFrontDrive.getCurrentPosition() + (int) (targetY - targetX);
+        int rightBackTarget = rightBackDrive.getCurrentPosition() + (int) (targetY + targetX);
+        int leftFrontTarget = leftFrontDrive.getCurrentPosition() + (int) (targetY + targetX);
+        int leftBackTarget = leftBackDrive.getCurrentPosition() + (int) (targetY - targetX);
+
+        // Calculate average target position before loop
+        double averageTargetPosition = (rightFrontTarget + rightBackTarget + leftFrontTarget + leftBackTarget) / 4.0;
+
+        // Set target positions and motor run modes
+        rightFrontDrive.setTargetPosition(rightFrontTarget);
+        rightBackDrive.setTargetPosition(rightBackTarget);
+        leftFrontDrive.setTargetPosition(leftFrontTarget);
+        leftBackDrive.setTargetPosition(leftBackTarget);
+
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // Set starting motor power
+        double targetPower = 0.25;
+        rightFrontDrive.setPower(targetPower);
+        rightBackDrive.setPower(targetPower);
+        leftFrontDrive.setPower(targetPower);
+        leftBackDrive.setPower(targetPower);
+
+        // Constantly update motor power to allow for acceleration and deceleration
+        while (rightFrontDrive.isBusy() && rightBackDrive.isBusy() && leftFrontDrive.isBusy() && leftBackDrive.isBusy()) {
+
+            // Calculate average encoder position
+            double averageEncoderPosition = (rightFrontDrive.getCurrentPosition() +
+                    rightBackDrive.getCurrentPosition() + leftFrontDrive.getCurrentPosition() +
+                    leftBackDrive.getCurrentPosition()) / 4.0;
+
+            // Calculate percent complete and adjust motor power based on progress
+            double percentComplete = Range.clip(averageEncoderPosition / averageTargetPosition, 0.0, 1.0);
+            double motorPower;
+            if (percentComplete < 0.25) {
+                motorPower = Range.clip(percentComplete * 4, 0.25, 1.0);
+            } else if (percentComplete < 0.75) {
+                motorPower = 1.0;
+            } else {
+                motorPower = Range.clip(1.0 - percentComplete, 0.25, 1.0);
+            }
+
+            // Apply calculated power to the motors
+            rightFrontDrive.setPower(motorPower);
+            rightBackDrive.setPower(motorPower);
+            leftFrontDrive.setPower(motorPower);
+            leftBackDrive.setPower(motorPower);
+        }
+
+        // Stop motors after reaching the target position
+        rightFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+        leftFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+
+        // Set motor run modes back to RUN_USING_ENCODER
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    /**
+     * Displays what position the robot is currently located at on the field on the Telemetry.
+     */
+    private void displayRobotPosition() {
+
+        // Get the robot's position
         double[] robotPosition = coordinateSystem.getPosition();
 
-        robotTelemetry.addLine("---Robot Position---");
-        robotTelemetry.addData("Robot X", robotPosition[0]);
-        robotTelemetry.addData("Robot Y", robotPosition[1]);
-        robotTelemetry.update();
+        // Convert the robot's rotation to degrees to make it easier for a human to understand.
+        double robotRotationDegrees = Math.toDegrees(robotPosition[2]);
+
+        // Tell the user their current position.
+        myOpMode.telemetry.addLine("---Robot Position---");
+        myOpMode.telemetry.addData("Robot X", robotPosition[0]);
+        myOpMode.telemetry.addData("Robot Y", robotPosition[1]);
+        myOpMode.telemetry.addData("Robot Rotation (Radians)", robotPosition[2]);
+        myOpMode.telemetry.addData("Robot Rotation (Degrees)", robotRotationDegrees);
+        myOpMode.telemetry.update();
     }
 
     /**

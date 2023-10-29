@@ -22,7 +22,7 @@ public class CoordinateSystem {
      * Initializes the imu so that we can keep track of the robot's rotation and use said rotation
      * when calculating the robot's positional change.
      *
-     * @param hardwareMap;  Allows the robot to gain access to it's hardware. (It errors if we don't do this)
+     * @param hardwareMap;  Allows the robot to gain access to its hardware. (It errors if we don't do this)
      */
     public void initializeImu(HardwareMap hardwareMap) {
 
@@ -34,6 +34,9 @@ public class CoordinateSystem {
                 RevHubOrientationOnRobot.LogoFacingDirection.UP,
                 RevHubOrientationOnRobot.UsbFacingDirection.RIGHT));
         imu.initialize(imuSettings);
+
+        // reset the imu's angle.
+        imu.resetYaw();
     }
 
     /**
@@ -64,8 +67,8 @@ public class CoordinateSystem {
         // Recalculate the positional change to account for the robot's rotation.
         double rotatedLeftRightChange = leftRightChange * Math.cos(-robotRotation) -
                 forwardsBackwardsChange * Math.sin(-robotRotation);
-        double rotatedForwardsBackwardsChange = leftRightChange * Math.cos(-robotRotation) +
-                forwardsBackwardsChange * Math.sin(-robotRotation);
+        double rotatedForwardsBackwardsChange = leftRightChange * Math.sin(-robotRotation) +
+                forwardsBackwardsChange * Math.cos(-robotRotation);
 
         // Convert the above values to inches
         double xChange = rotatedLeftRightChange / TICKS_PER_INCH;
@@ -83,6 +86,37 @@ public class CoordinateSystem {
     }
 
     /**
+     * Calculates the distance from the robot's current position to the provided target location.
+     *
+     * @param targetX;              The X position you want the robot move to.
+     * @param targetY;              The Y position you want the robot to move to.
+     * @param targetRotation;       The direction you want the robot to be facing by the end of the movement.
+     * @return;                     Returns and array containing the distance to all of the desired coordinates.
+     */
+    public double[] getDistanceToPosition(double targetX, double targetY, double targetRotation) {
+
+        // Initialize return value.
+        double[] distanceToTargetPosition = new double[3];
+
+        // Update the robot's rotation so that the below calculation involving rotations are accurate.
+        robotRotation = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        double robotRotationDegrees = robotRotation * 180 / Math.PI;
+
+        // Calculate how far away the robot is from the target position.
+        double xDistance = robotX - targetX;
+        double yDistance = robotY - targetY;
+        double rotationDifference = robotRotationDegrees = targetRotation;
+
+        // Add the above calculated values to distanceToTargetPosition[]
+        distanceToTargetPosition[0] = xDistance;
+        distanceToTargetPosition[1] = yDistance;
+        distanceToTargetPosition[2] = rotationDifference;
+
+        // Return values to user.
+        return distanceToTargetPosition;
+    }
+
+    /**
      * Returns an array containing the robot's X and Y position (In inches)
      *
      * @return      Returns an array containing the robot's X and Y position (In inches) and rotation )in radians)
@@ -90,5 +124,4 @@ public class CoordinateSystem {
     public double[] getPosition() {
         return new double[]{robotX, robotY, robotRotation};
     }
-
 }

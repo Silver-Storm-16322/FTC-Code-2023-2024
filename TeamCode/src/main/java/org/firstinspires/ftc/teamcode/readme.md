@@ -105,11 +105,12 @@ method to be used again.
 ### getPosition() ###
 `public double[] getPosition()`
 
-This method returns an array containing the robot's X and Y coordinates (in inches).
+This method returns an array containing the robot's X and Y coordinates (in inches) and the robot's 
+\rotation (in radians)
 
 [1]: RobotSystems/Subsystems/DriveTrain.java
 [1.1]: RobotSystems/Subsystems/SubsystemEnums/DriveMode.java
-[2]: RobotSystems/Subsystems/LinearSlides.java
+[2]: RobotSystems/Subsystems/LinearSlide.java
 [2.1]: RobotSystems/Subsystems/SubsystemEnums/LinearSlideStage.java
 [3]: RobotSystems/Subsystems/Manipulator.java
 [4]: RobotSystems/Subsystems/Vision.java
