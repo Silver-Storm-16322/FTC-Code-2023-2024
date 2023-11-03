@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.SubsystemEnums.DriveMode;
+import org.opencv.core.Mat;
 
 public class DriveTrain {
     private LinearOpMode myOpMode = null;
@@ -16,7 +17,6 @@ public class DriveTrain {
     private DcMotor leftBackDrive = null;
     private DriveMode current_drive_mode = DriveMode.DEFAULT_DRIVE;
     public static final double STRAIF_OFFSET = 1.1;
-    public static final double CAMERA_OFFSET = -5.9375;
 
     public DriveTrain(LinearOpMode opMode) {myOpMode = opMode; }
 
@@ -152,9 +152,6 @@ public class DriveTrain {
         int leftFrontTarget = leftFrontDrive.getCurrentPosition() + (int) (targetY + targetX);
         int leftBackTarget = leftBackDrive.getCurrentPosition() + (int) (targetY - targetX);
 
-        // Calculate average target position before loop
-        double averageTargetPosition = (rightFrontTarget + rightBackTarget + leftFrontTarget + leftBackTarget) / 4.0;
-
         // Set target positions and motor run modes
         rightFrontDrive.setTargetPosition(rightFrontTarget);
         rightBackDrive.setTargetPosition(rightBackTarget);
@@ -166,38 +163,36 @@ public class DriveTrain {
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+        // Calculate Average target position
+        double averageTargetPosition = (double)(rightFrontTarget + rightBackTarget + leftFrontTarget + leftBackTarget) / 4;
+        double averageEncoderPosition = 0;
+
         // Set starting motor power
-        double targetPower = 0.25;
+        double targetPower = .6;
         rightFrontDrive.setPower(targetPower);
         rightBackDrive.setPower(targetPower);
         leftFrontDrive.setPower(targetPower);
         leftBackDrive.setPower(targetPower);
 
-        // Constantly update motor power to allow for acceleration and deceleration
-        while (rightFrontDrive.isBusy() && rightBackDrive.isBusy() && leftFrontDrive.isBusy() && leftBackDrive.isBusy()) {
+        // Constantly update the user as to where the robot is on the field.
+        while ((averageTargetPosition - averageEncoderPosition) / CoordinateSystem.TICKS_PER_INCH > 0.1 || rightFrontDrive.isBusy() &&
+                rightBackDrive.isBusy() && leftFrontDrive.isBusy() && leftBackDrive.isBusy()) {
 
-            // Calculate average encoder position
-            double averageEncoderPosition = (rightFrontDrive.getCurrentPosition() +
-                    rightBackDrive.getCurrentPosition() + leftFrontDrive.getCurrentPosition() +
-                    leftBackDrive.getCurrentPosition()) / 4.0;
+            // Calculate Average Encoder Position
+            averageEncoderPosition = (double)(rightFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition() +
+                    leftFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition()) / 4;
 
-            // Calculate percent complete and adjust motor power based on progress
-            double percentComplete = Range.clip(averageEncoderPosition / averageTargetPosition, 0.0, 1.0);
-            double motorPower;
-            if (percentComplete < 0.25) {
-                motorPower = Range.clip(percentComplete * 4, 0.25, 1.0);
-            } else if (percentComplete < 0.75) {
-                motorPower = 1.0;
-            } else {
-                motorPower = Range.clip(1.0 - percentComplete, 0.25, 1.0);
-            }
+            // Display robot's position
+            coordinateSystem.updateRobotPosition(rightFrontDrive.getCurrentPosition(), rightBackDrive.getCurrentPosition(),
+                    leftFrontDrive.getCurrentPosition(), leftBackDrive.getCurrentPosition());
 
-            // Apply calculated power to the motors
-            rightFrontDrive.setPower(motorPower);
-            rightBackDrive.setPower(motorPower);
-            leftFrontDrive.setPower(motorPower);
-            leftBackDrive.setPower(motorPower);
+            // Output robot's position
+            displayRobotPosition();
         }
+
+        // Update the robot's position to allow for more accurate data.
+        coordinateSystem.updateRobotPosition(rightFrontDrive.getCurrentPosition(), rightBackDrive.getCurrentPosition(),
+                leftFrontDrive.getCurrentPosition(), leftBackDrive.getCurrentPosition());
 
         // Stop motors after reaching the target position
         rightFrontDrive.setPower(0);

@@ -20,6 +20,8 @@ public class Vision {
     private WebcamName webcam = null;
     private AprilTagProcessor tagProcessor = null;
     private VisionPortal visionPortal = null;
+    public static final double CAMERA_OFFSET = -5.9375;
+
 
     public void init(HardwareMap hardwareMap, Telemetry telemetry) {
 

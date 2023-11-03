@@ -88,19 +88,18 @@ code cleaner and overall easier to work with.
 `public void updateRobotPosition(double currentRightFrontPosition, double currentRightBackPosition,
 &nbsp; double currentLeftFrontPosition, double currentLeftBackPosition)`
 
-This method is used to update the robot's position on the X and Y axis based on the provided changes in
-all of the [DriveTrain's][1] motor's encoder count. Then, after figuring out the change in each motor's
-encoder counts we calculate how far the robot moved across the X and Y axis using the below equations:
+This method determines where the robot moved to on the field and then updates the robot's position so that 
+it's equal to where it moved to on the field. This is accomplished by finding the difference between the current 
+encoder counts of the wheels and what the encoder counts of the wheels were the last time this function was called. 
+By getting these values, we can then use the below listed equation in order to figure out how much the robot moved in each direction.
 
 *xChange = $\frac{(leftFrontChange + rightBackChange) - (leftBackChange + rightFrontChange)}{4}$*
 
 *yChange = $\frac{rightFrontChange + rightBackChange + leftFrontChange + leftBackChange}{4}$*
 
-Then, we convert the X and Y changes to inches by dividing them by the amount of encoder ticks per inch
-(In this case 57.953). The reason that we convert the values to inches is to make debugging easier as it is easier
-to measure a distance in inches as opposed to encoder counts. Upon converting the changes to inches, we add the X and
-Y changes to the robot's position. Lastly, we set the robot's last position as its current position to allow this
-method to be used again.
+Once we calculate how far right/left (X) and forwards/backwards (Y) the robot moved, we proceed to convert 
+these values to inches to make it easier to debug and measure the degree to which slippage is an issue with your wheels. 
+After this, we then
 
 ### getPosition() ###
 `public double[] getPosition()`

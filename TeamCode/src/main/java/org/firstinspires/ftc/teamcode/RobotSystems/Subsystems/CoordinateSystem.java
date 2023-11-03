@@ -100,17 +100,16 @@ public class CoordinateSystem {
 
         // Update the robot's rotation so that the below calculation involving rotations are accurate.
         robotRotation = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-        double robotRotationDegrees = robotRotation * 180 / Math.PI;
 
         // Calculate how far away the robot is from the target position.
-        double xDistance = robotX - targetX;
-        double yDistance = robotY - targetY;
-        double rotationDifference = robotRotationDegrees = targetRotation;
+        double xDistance = targetX - robotX;
+        double yDistance = targetY - robotY;
+        double rotationDifference = targetRotation - robotRotation;
 
         // Add the above calculated values to distanceToTargetPosition[]
         distanceToTargetPosition[0] = xDistance;
         distanceToTargetPosition[1] = yDistance;
-        distanceToTargetPosition[2] = rotationDifference;
+        distanceToTargetPosition[2] = robotRotation;
 
         // Return values to user.
         return distanceToTargetPosition;

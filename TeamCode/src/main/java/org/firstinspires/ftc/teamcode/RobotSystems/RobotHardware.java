@@ -21,8 +21,8 @@ public class RobotHardware {
     public void init() {
 
         // Initialize robot subsystems
-        driveTrain = new DriveTrain();
-        driveTrain.init(myOpMode.hardwareMap, myOpMode.telemetry);
+        driveTrain = new DriveTrain(myOpMode);
+        driveTrain.init();
 
         linearSlide = new LinearSlide();
         linearSlide.init(myOpMode.hardwareMap, myOpMode.telemetry);

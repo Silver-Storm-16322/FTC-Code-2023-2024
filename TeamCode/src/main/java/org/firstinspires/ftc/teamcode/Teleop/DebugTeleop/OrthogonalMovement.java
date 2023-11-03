@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.RobotSystems.RobotHardware;
 import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.SubsystemEnums.DriveMode;
 
-@TeleOp (name = "Orthogonal Movement")
+@TeleOp (name = "Orthogonal Movement", group = "Debug OpModes")
 public class OrthogonalMovement extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(this);
