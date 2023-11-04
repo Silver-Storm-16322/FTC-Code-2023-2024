@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.SubsystemEnums.DriveMode;
+import org.firstinspires.ftc.teamcode.RobotSystems.Utility.Vector3;
 import org.opencv.core.Mat;
 
 public class DriveTrain {
@@ -114,43 +115,35 @@ public class DriveTrain {
     /**
      * Drives the robot to the specified position and rotation in the coordinate system.
      *
-     * @param targetXPosition The target X-coordinate in inches.
-     * @param targetYPosition The target Y-coordinate in inches.
-     * @param targetRotation The target rotation in degrees.
+     * @param targetPosition The position on the field you want the robot to drive to.
      */
-    public void driveRobotToPosition(double targetXPosition, double targetYPosition, double targetRotation) {
+    public void driveRobotToPosition(Vector3 targetPosition) {
 
-        // Convert target rotation to radians.
-        double targetRotationRadians = Math.toRadians(targetRotation);
+        // Convert the target position's rotation to radians.
+        targetPosition.rotation = Math.toRadians(targetPosition.rotation);
 
         // Get distance to target from robot's coordinate system.
-        double[] targetPosition = coordinateSystem.getDistanceToPosition(targetXPosition, targetYPosition, targetRotationRadians);
+        Vector3 targetPositionDistance = coordinateSystem.getDistanceToPosition(targetPosition);
 
-        // Convert position to encoder counts.
-        double targetXDistance = targetPosition[0] * CoordinateSystem.TICKS_PER_INCH;
-        double targetYDistance = targetPosition[1] * CoordinateSystem.TICKS_PER_INCH;
-
-        // Rotate the target position values so that they are independent from the rotation.
-        double rotatedTargetXDistance = targetXDistance * Math.cos(-targetPosition[2]) - targetYDistance * Math.sin(-targetPosition[2]);
-        double rotatedTargetYDistance = targetXDistance * Math.sin(-targetPosition[2]) + targetYDistance * Math.cos(-targetPosition[2]);
+        // Convert the distance to the target position from inches and radians to encoder counts.
+        targetPositionDistance.multiplyBy(CoordinateSystem.TICKS_PER_INCH);
 
         // Move robot to the rotated position.
-        setTargetPosition(rotatedTargetXDistance, rotatedTargetYDistance);
+        setTargetPosition(targetPositionDistance);
     }
 
     /**
      * Moves the robot to a specified target position.
      *
-     * @param targetX The target X-coordinate.
-     * @param targetY The target Y-coordinate.
+     * @param targetPosition The position you want the robot to move to.
      */
-    private void setTargetPosition(double targetX, double targetY) {
+    public void setTargetPosition(Vector3 targetPosition) {
 
         // Calculate encoder changes for each individual motor
-        int rightFrontTarget = rightFrontDrive.getCurrentPosition() + (int) (targetY - targetX);
-        int rightBackTarget = rightBackDrive.getCurrentPosition() + (int) (targetY + targetX);
-        int leftFrontTarget = leftFrontDrive.getCurrentPosition() + (int) (targetY + targetX);
-        int leftBackTarget = leftBackDrive.getCurrentPosition() + (int) (targetY - targetX);
+        int rightFrontTarget = rightFrontDrive.getCurrentPosition() + (int) (targetPosition.y - targetPosition.x);
+        int rightBackTarget = rightBackDrive.getCurrentPosition() + (int) (targetPosition.y + targetPosition.x);
+        int leftFrontTarget = leftFrontDrive.getCurrentPosition() + (int) (targetPosition.y + targetPosition.x);
+        int leftBackTarget = leftBackDrive.getCurrentPosition() + (int) (targetPosition.y - targetPosition.x);
 
         // Set target positions and motor run modes
         rightFrontDrive.setTargetPosition(rightFrontTarget);
@@ -213,16 +206,16 @@ public class DriveTrain {
     private void displayRobotPosition() {
 
         // Get the robot's position
-        double[] robotPosition = coordinateSystem.getPosition();
+        Vector3 robotPosition = coordinateSystem.getPosition();
 
         // Convert the robot's rotation to degrees to make it easier for a human to understand.
-        double robotRotationDegrees = Math.toDegrees(robotPosition[2]);
+        double robotRotationDegrees = Math.toDegrees(robotPosition.rotation);
 
         // Tell the user their current position.
         myOpMode.telemetry.addLine("---Robot Position---");
-        myOpMode.telemetry.addData("Robot X", robotPosition[0]);
-        myOpMode.telemetry.addData("Robot Y", robotPosition[1]);
-        myOpMode.telemetry.addData("Robot Rotation (Radians)", robotPosition[2]);
+        myOpMode.telemetry.addData("Robot X", robotPosition.x);
+        myOpMode.telemetry.addData("Robot Y", robotPosition.y);
+        myOpMode.telemetry.addData("Robot Rotation (Radians)", robotPosition.rotation);
         myOpMode.telemetry.addData("Robot Rotation (Degrees)", robotRotationDegrees);
         myOpMode.telemetry.update();
     }

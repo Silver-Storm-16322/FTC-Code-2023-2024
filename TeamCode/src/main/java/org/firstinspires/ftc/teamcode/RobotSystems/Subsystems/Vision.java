@@ -64,8 +64,7 @@ public class Vision {
         robotTelemetry = telemetry;
 
         // Tell user that the april tags were successfully initialized
-        robotTelemetry.addData("--->","AprilTagDetection successfully initialized.");
-        robotTelemetry.update();
+        robotTelemetry.addData("->","AprilTagDetection successfully initialized.");
     }
 
     public boolean aprilTagVisible() {

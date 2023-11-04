@@ -28,7 +28,7 @@ public class Manipulator {
         robotTelemetry = telemetry;
 
         // Tell the user that the manipulator has been initialized.
-        robotTelemetry.addData("-->","Manipulator initialized");
+        robotTelemetry.addData("->","Manipulator initialized");
     }
 
     // Open up the manipulator so that we can grab a hexagon.

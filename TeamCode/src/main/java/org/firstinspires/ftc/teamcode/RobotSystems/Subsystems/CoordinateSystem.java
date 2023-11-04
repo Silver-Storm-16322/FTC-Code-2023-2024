@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.RobotSystems.Utility.Vector2;
+import org.firstinspires.ftc.teamcode.RobotSystems.Utility.Vector3;
 
 public class CoordinateSystem {
 
@@ -13,9 +15,7 @@ public class CoordinateSystem {
     private double lastRightBackPosition = 0;
     private double lastLeftFrontPosition = 0;
     private double lastLeftBackPosition = 0;
-    private double robotRotation = 0;
-    private double robotX = 0;
-    private double robotY = 0;
+    private Vector3 robotPosition = new Vector3(0, 0, 0);
     public static final double TICKS_PER_INCH = 57.953;
 
     /**
@@ -60,23 +60,21 @@ public class CoordinateSystem {
         double leftRightChange = ( (changeLeftFront + changeRightBack) - (changeLeftBack + changeRightFront)) / 4;
         double forwardsBackwardsChange = (changeRightFront + changeRightBack + changeLeftFront + changeLeftBack) / 4;
 
+        // Create a Vector2 storing the average positional change in the robot.
+        Vector2 positionChange = new Vector2(leftRightChange, forwardsBackwardsChange);
+
         // Update the robot's rotation so that we can account for the robot's rotation when calculating
         // the final position.
-        robotRotation = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        updateRotation();
 
         // Recalculate the positional change to account for the robot's rotation.
-        double rotatedLeftRightChange = leftRightChange * Math.cos(-robotRotation) -
-                forwardsBackwardsChange * Math.sin(-robotRotation);
-        double rotatedForwardsBackwardsChange = leftRightChange * Math.sin(-robotRotation) +
-                forwardsBackwardsChange * Math.cos(-robotRotation);
+        positionChange.rotateVector(robotPosition.rotation);
 
         // Convert the above values to inches
-        double xChange = rotatedLeftRightChange / TICKS_PER_INCH;
-        double yChange = rotatedForwardsBackwardsChange / TICKS_PER_INCH;
+        positionChange.divideBy(TICKS_PER_INCH);
 
         // Update robot position
-        robotX += xChange;
-        robotY += yChange;
+        robotPosition.addValues(positionChange);
 
         // Update last position
         lastRightFrontPosition = currentRightFrontPosition;
@@ -88,39 +86,33 @@ public class CoordinateSystem {
     /**
      * Calculates the distance from the robot's current position to the provided target location.
      *
-     * @param targetX The X position you want the robot move to.
-     * @param targetY The Y position you want the robot to move to.
-     * @param targetRotation The direction you want the robot to be facing by the end of the movement.
-     * @return Returns and array containing the distance to all of the desired coordinates.
+     * @param targetPosition The position you want to move the robot to.
+     * @return Returns a Vector3 containing the distance to the
      */
-    public double[] getDistanceToPosition(double targetX, double targetY, double targetRotation) {
-
-        // Initialize return value.
-        double[] distanceToTargetPosition = new double[3];
+    public Vector3 getDistanceToPosition(Vector3 targetPosition) {
 
         // Update the robot's rotation so that the below calculation involving rotations are accurate.
-        robotRotation = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        updateRotation();
 
         // Calculate how far away the robot is from the target position.
-        double xDistance = targetX - robotX;
-        double yDistance = targetY - robotY;
-        double rotationDifference = targetRotation - robotRotation;
+        targetPosition.subtractValues(new Vector2(robotPosition.x, robotPosition.y));
 
-        // Add the above calculated values to distanceToTargetPosition[]
-        distanceToTargetPosition[0] = xDistance;
-        distanceToTargetPosition[1] = yDistance;
-        distanceToTargetPosition[2] = robotRotation;
+        // Rotate the Target Position to account for the robot's rotation.
+        targetPosition.rotateVector(robotPosition.rotation);
 
         // Return values to user.
-        return distanceToTargetPosition;
+        return targetPosition;
     }
 
+    public void updateRotation() {
+        robotPosition.rotation = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+    }
     /**
-     * Returns an array containing the robot's X and Y position (In inches)
+     * Returns the robot's position (In inches) and rotation (in radians)
      *
-     * @return Returns an array containing the robot's X and Y position (In inches) and rotation )in radians)
+     * @return Returns the robot's X and Y position (In inches) and rotation )in radians)
      */
-    public double[] getPosition() {
-        return new double[]{robotX, robotY, robotRotation};
+    public Vector3 getPosition() {
+        return robotPosition;
     }
 }

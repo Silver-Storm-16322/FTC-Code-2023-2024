@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.LinearSlide;
 import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.Manipulator;
+import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.PaperAirplaneLauncher;
 import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.Vision;
 
 public class RobotHardware {
@@ -14,6 +15,7 @@ public class RobotHardware {
     public DriveTrain driveTrain = null;
     public LinearSlide linearSlide = null;
     public Manipulator manipulator = null;
+    public PaperAirplaneLauncher paperAirplaneLauncher = null;
     public Vision aprilTagDetection = null;
 
     public RobotHardware (LinearOpMode opMode) { this.myOpMode = opMode; }
@@ -29,6 +31,9 @@ public class RobotHardware {
 
         manipulator = new Manipulator();
         manipulator.init(myOpMode.hardwareMap, myOpMode.telemetry);
+
+        paperAirplaneLauncher = new PaperAirplaneLauncher();
+        paperAirplaneLauncher.init(myOpMode.hardwareMap, myOpMode.telemetry);
 
         aprilTagDetection = new Vision();
         aprilTagDetection.init(myOpMode.hardwareMap, myOpMode.telemetry);
