@@ -68,7 +68,9 @@ public class CoordinateSystem {
         updateRotation();
 
         // Recalculate the positional change to account for the robot's rotation.
-        positionChange.rotateVector(robotPosition.rotation);
+        // The rotation value is negative so that we can untangle the rotation from the
+        // encoder counts, since they were already rotated.
+        positionChange.rotateVector(-robotPosition.rotation);
 
         // Convert the above values to inches
         positionChange.divideBy(TICKS_PER_INCH);
@@ -104,9 +106,13 @@ public class CoordinateSystem {
         return targetPosition;
     }
 
+    /**
+     * Updates the robot's position.
+     */
     public void updateRotation() {
         robotPosition.rotation = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
     }
+
     /**
      * Returns the robot's position (In inches) and rotation (in radians)
      *

@@ -10,8 +10,8 @@ public class Vector2 {
     }
 
     /**
-     * This method combines the values of another Vector2 with this Vector2 instance.
-     * Adds the X and Y values from the specified Vector2 to this Vector2.
+     * This method combines the values of another Vector2 with this vector.
+     * Adds the X and Y values from the specified Vector2 to this vector.
      *
      * @param otherVector The Vector2 instance whose values will be added to this vector.
      */

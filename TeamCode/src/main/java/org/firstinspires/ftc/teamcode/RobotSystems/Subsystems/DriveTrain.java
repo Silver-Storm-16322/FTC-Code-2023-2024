@@ -122,7 +122,7 @@ public class DriveTrain {
         // Convert the target position's rotation to radians.
         targetPosition.rotation = Math.toRadians(targetPosition.rotation);
 
-        // Get distance to target from robot's coordinate system.
+        // Get distance to the target from the robot's coordinate system.
         Vector3 targetPositionDistance = coordinateSystem.getDistanceToPosition(targetPosition);
 
         // Convert the distance to the target position from inches and radians to encoder counts.
@@ -166,6 +166,18 @@ public class DriveTrain {
         rightBackDrive.setPower(targetPower);
         leftFrontDrive.setPower(targetPower);
         leftBackDrive.setPower(targetPower);
+
+        /*
+        * PIT Controller -- WIP (I plan on adding / working on this later to improve preference. ) - Cameron
+        /
+        double kp = 0;
+        double ki = 0;
+        double kd = 0;
+
+        while () {
+
+        }
+        */
 
         // Constantly update the user as to where the robot is on the field.
         while ((averageTargetPosition - averageEncoderPosition) / CoordinateSystem.TICKS_PER_INCH > 0.1 || rightFrontDrive.isBusy() &&
