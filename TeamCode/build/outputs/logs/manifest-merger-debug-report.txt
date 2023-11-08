@@ -1,10 +1,10 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:8:1-11:12
-INJECTED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:8:1-11:12
-INJECTED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:8:1-11:12
-INJECTED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:8:1-11:12
-MERGED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-78:12
+ADDED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:8:1-11:12
+INJECTED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:8:1-11:12
+INJECTED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:8:1-11:12
+INJECTED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:8:1-11:12
+MERGED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-78:12
 MERGED from [org.firstinspires.ftc:OnBotJava:9.0.0] C:\Users\camer\.gradle\caches\transforms-3\0991544edc7f44b0691e8609336c81f6\transformed\jetified-OnBotJava-9.0.0\AndroidManifest.xml:34:1-43:12
 MERGED from [org.firstinspires.ftc:Blocks:9.0.0] C:\Users\camer\.gradle\caches\transforms-3\bf2a075dc09eb4a76be97931b0223afd\transformed\jetified-Blocks-9.0.0\AndroidManifest.xml:2:1-26:12
 MERGED from [org.firstinspires.ftc:FtcCommon:9.0.0] C:\Users\camer\.gradle\caches\transforms-3\6e121ca3e04327a21687b7b2ab937599\transformed\jetified-FtcCommon-9.0.0\AndroidManifest.xml:3:1-174:12
@@ -46,27 +46,27 @@ MERGED from [org.tensorflow:tensorflow-lite-support-api:0.4.3] C:\Users\camer\.g
 MERGED from [org.tensorflow:tensorflow-lite-api:2.12.0] C:\Users\camer\.gradle\caches\transforms-3\9e63afa0af78dd6f97aeb760e632ed4b\transformed\jetified-tensorflow-lite-api-2.12.0\AndroidManifest.xml:2:1-11:12
 MERGED from [org.openftc:opencv-repackaged-bundled-dylibs:4.7.0-A] C:\Users\camer\.gradle\caches\transforms-3\887a5763158160f2cd6d1d719d9a3a73\transformed\jetified-opencv-repackaged-bundled-dylibs-4.7.0-A\AndroidManifest.xml:2:1-11:12
 MERGED from [com.google.android.odml:image:1.0.0-beta1] C:\Users\camer\.gradle\caches\transforms-3\7acabdef8b1597a4c161ac90df515e7a\transformed\jetified-image-1.0.0-beta1\AndroidManifest.xml:2:1-9:12
-INJECTED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:8:1-11:12
-INJECTED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:8:1-11:12
-INJECTED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:8:1-11:12
+INJECTED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:8:1-11:12
+INJECTED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:8:1-11:12
+INJECTED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:8:1-11:12
 	package
-		INJECTED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
-		ADDED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:8:1-11:12
-		INJECTED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
+		ADDED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:8:1-11:12
+		INJECTED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
-		ADDED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:8:1-11:12
-		INJECTED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
+		ADDED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:8:1-11:12
+		INJECTED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
 	android:versionCode
-		INJECTED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
-		ADDED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:8:1-11:12
-		INJECTED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
+		ADDED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:8:1-11:12
+		INJECTED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:9:5-63
+		ADDED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:9:5-63
 application
-ADDED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:10:5-19
-MERGED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:5-76:19
-MERGED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:5-76:19
+ADDED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml:10:5-19
+MERGED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:5-76:19
+MERGED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:5-76:19
 MERGED from [org.firstinspires.ftc:Blocks:9.0.0] C:\Users\camer\.gradle\caches\transforms-3\bf2a075dc09eb4a76be97931b0223afd\transformed\jetified-Blocks-9.0.0\AndroidManifest.xml:18:5-24:19
 MERGED from [org.firstinspires.ftc:Blocks:9.0.0] C:\Users\camer\.gradle\caches\transforms-3\bf2a075dc09eb4a76be97931b0223afd\transformed\jetified-Blocks-9.0.0\AndroidManifest.xml:18:5-24:19
 MERGED from [org.firstinspires.ftc:FtcCommon:9.0.0] C:\Users\camer\.gradle\caches\transforms-3\6e121ca3e04327a21687b7b2ab937599\transformed\jetified-FtcCommon-9.0.0\AndroidManifest.xml:23:5-172:19
@@ -94,25 +94,25 @@ MERGED from [com.google.android.odml:image:1.0.0-beta1] C:\Users\camer\.gradle\c
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.3.0] C:\Users\camer\.gradle\caches\transforms-3\87c712ceb280b89563e287f590257de7\transformed\core-1.3.0\AndroidManifest.xml:24:18-86
 	android:label
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:15:9-41
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:15:9-41
 	android:largeHeap
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:16:9-33
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:16:9-33
 	android:icon
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:14:9-45
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:14:9-45
 	android:allowBackup
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:9-35
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:9-35
 	android:theme
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:17:9-45
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:17:9-45
 	android:name
 		ADDED from [org.firstinspires.ftc:RobotCore:9.0.0] C:\Users\camer\.gradle\caches\transforms-3\c4a4e1bd18017a526402c719ef0de2d9\transformed\jetified-RobotCore-9.0.0\AndroidManifest.xml:87:18-97
 	android:usesCleartextTraffic
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:18:9-44
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:18:9-44
 uses-sdk
-INJECTED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
-INJECTED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
-MERGED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-44
-MERGED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-44
+INJECTED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
+INJECTED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
+MERGED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-44
+MERGED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-44
 MERGED from [org.firstinspires.ftc:OnBotJava:9.0.0] C:\Users\camer\.gradle\caches\transforms-3\0991544edc7f44b0691e8609336c81f6\transformed\jetified-OnBotJava-9.0.0\AndroidManifest.xml:39:5-41:41
 MERGED from [org.firstinspires.ftc:OnBotJava:9.0.0] C:\Users\camer\.gradle\caches\transforms-3\0991544edc7f44b0691e8609336c81f6\transformed\jetified-OnBotJava-9.0.0\AndroidManifest.xml:39:5-41:41
 MERGED from [org.firstinspires.ftc:Blocks:9.0.0] C:\Users\camer\.gradle\caches\transforms-3\bf2a075dc09eb4a76be97931b0223afd\transformed\jetified-Blocks-9.0.0\AndroidManifest.xml:7:5-9:41
@@ -193,108 +193,108 @@ MERGED from [org.openftc:opencv-repackaged-bundled-dylibs:4.7.0-A] C:\Users\came
 MERGED from [org.openftc:opencv-repackaged-bundled-dylibs:4.7.0-A] C:\Users\camer\.gradle\caches\transforms-3\887a5763158160f2cd6d1d719d9a3a73\transformed\jetified-opencv-repackaged-bundled-dylibs-4.7.0-A\AndroidManifest.xml:7:5-9:41
 MERGED from [com.google.android.odml:image:1.0.0-beta1] C:\Users\camer\.gradle\caches\transforms-3\7acabdef8b1597a4c161ac90df515e7a\transformed\jetified-image-1.0.0-beta1\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.odml:image:1.0.0-beta1] C:\Users\camer\.gradle\caches\transforms-3\7acabdef8b1597a4c161ac90df515e7a\transformed\jetified-image-1.0.0-beta1\AndroidManifest.xml:5:5-44
-INJECTED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
-INJECTED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
+INJECTED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
+INJECTED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
-		ADDED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
+		ADDED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
-		ADDED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
+		ADDED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\TeamCode\src\main\AndroidManifest.xml
 uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
-ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-81
+ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-81
 	android:name
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:22-78
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:22-78
 meta-data#org.firstinspires.latestSupportedControlHubVersion
-ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:21:9-23:33
+ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:21:9-23:33
 	android:value
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:23:13-30
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:23:13-30
 	android:name
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:22:13-78
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:22:13-78
 activity#org.firstinspires.ftc.robotcontroller.internal.PermissionValidatorWrapper
-ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:26:9-37:20
+ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:26:9-37:20
 	android:screenOrientation
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:31:13-49
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:31:13-49
 	android:label
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:29:13-45
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:29:13-45
 	android:launchMode
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:30:13-44
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:30:13-44
 	android:configChanges
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:28:13-59
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:28:13-59
 	android:name
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:27:13-101
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:27:13-101
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:32:13-36:29
+ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:32:13-36:29
 category#android.intent.category.LAUNCHER
-ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:33:17-77
+ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:33:17-77
 	android:name
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:33:27-74
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:33:27-74
 action#android.intent.action.MAIN
-ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:35:17-69
+ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:35:17-69
 	android:name
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:35:25-66
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:35:25-66
 activity#org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity
-ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:38:9-56:20
+ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:38:9-56:20
 	android:screenOrientation
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:43:13-49
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:43:13-49
 	android:label
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:41:13-45
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:41:13-45
 	android:launchMode
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:42:13-44
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:42:13-44
 	android:configChanges
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:40:13-59
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:40:13-59
 	android:name
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:39:13-101
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:39:13-101
 intent-filter#action:name:android.hardware.usb.action.USB_DEVICE_ATTACHED
-ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:44:13-46:29
+ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:44:13-46:29
 action#android.hardware.usb.action.USB_DEVICE_ATTACHED
-ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:45:17-90
+ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:45:17-90
 	android:name
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:45:25-87
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:45:25-87
 meta-data#android.hardware.usb.action.USB_DEVICE_ATTACHED
-ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:48:13-50:57
+ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:48:13-50:57
 	android:resource
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:50:17-54
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:50:17-54
 	android:name
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:49:17-79
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:49:17-79
 meta-data#org.firstinspires.main.entry
-ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:53:13-55:40
+ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:53:13-55:40
 	android:value
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:55:17-37
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:55:17-37
 	android:name
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:54:17-60
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:54:17-60
 service#com.qualcomm.ftccommon.FtcRobotControllerService
-ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:59:9-61:38
+ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:59:9-61:38
 	android:enabled
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:61:13-35
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:61:13-35
 	android:name
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:60:13-76
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:60:13-76
 receiver#org.firstinspires.ftc.ftccommon.internal.RunOnBoot
-ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:64:9-75:20
+ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:64:9-75:20
 	android:enabled
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:66:13-35
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:66:13-35
 	android:exported
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:67:13-36
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:67:13-36
 	android:permission
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:68:13-75
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:68:13-75
 	android:name
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:65:13-78
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:65:13-78
 intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.QUICKBOOT_POWERON+category:name:android.intent.category.DEFAULT
-ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:69:13-74:29
+ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:69:13-74:29
 category#android.intent.category.DEFAULT
-ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:70:17-76
+ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:70:17-76
 	android:name
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:70:27-73
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:70:27-73
 action#android.intent.action.BOOT_COMPLETED
-ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:72:17-79
+ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:72:17-79
 	android:name
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:72:25-76
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:72:25-76
 action#android.intent.action.QUICKBOOT_POWERON
-ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:73:17-82
+ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:73:17-82
 	android:name
-		ADDED from [:FtcRobotController] C:\Users\camer\OneDrive\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:73:25-79
+		ADDED from [:FtcRobotController] C:\Users\camer\Desktop\Robotics\Silverstorm\FTC-Code-2023-2024\FtcRobotController\build\intermediates\merged_manifest\debug\AndroidManifest.xml:73:25-79
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
 ADDED from [org.firstinspires.ftc:Blocks:9.0.0] C:\Users\camer\.gradle\caches\transforms-3\bf2a075dc09eb4a76be97931b0223afd\transformed\jetified-Blocks-9.0.0\AndroidManifest.xml:11:5-13:35
 MERGED from [org.firstinspires.ftc:FtcCommon:9.0.0] C:\Users\camer\.gradle\caches\transforms-3\6e121ca3e04327a21687b7b2ab937599\transformed\jetified-FtcCommon-9.0.0\AndroidManifest.xml:13:5-15:35

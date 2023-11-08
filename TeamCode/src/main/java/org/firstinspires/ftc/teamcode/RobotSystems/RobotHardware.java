@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.Vision;
 public class RobotHardware {
 
     // Declare Hardware Variables.
-    private LinearOpMode myOpMode = null;
+    private final LinearOpMode myOpMode;
     public DriveTrain driveTrain = null;
     public LinearSlide linearSlide = null;
     public Manipulator manipulator = null;

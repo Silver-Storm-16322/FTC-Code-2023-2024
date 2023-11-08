@@ -37,7 +37,7 @@ public class Manipulator {
         leftGripperServo.setPosition(OPEN_POSITION);
     }
 
-    // Close the manipulator so that we can move the game piece.
+    // Close the manipulator so that we can move/manipulate a hexagon.
     public void close() {
         rightGripperServo.setPosition(CLOSED_POSITION);
         leftGripperServo.setPosition(CLOSED_POSITION);

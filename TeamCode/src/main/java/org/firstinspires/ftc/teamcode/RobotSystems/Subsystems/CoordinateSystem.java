@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.RobotSystems.Utility.Vector2;
-import org.firstinspires.ftc.teamcode.RobotSystems.Utility.Vector3;
+import org.firstinspires.ftc.teamcode.Utility.Vector2;
+import org.firstinspires.ftc.teamcode.Utility.Vector3;
 
 public class CoordinateSystem {
 

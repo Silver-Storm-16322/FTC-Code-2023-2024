@@ -3,11 +3,9 @@ package org.firstinspires.ftc.teamcode.RobotSystems.Subsystems;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.SubsystemEnums.DriveMode;
-import org.firstinspires.ftc.teamcode.RobotSystems.Utility.Vector3;
-import org.opencv.core.Mat;
+import org.firstinspires.ftc.teamcode.Utility.Vector3;
 
 public class DriveTrain {
     private LinearOpMode myOpMode = null;

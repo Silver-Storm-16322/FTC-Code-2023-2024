@@ -23,5 +23,6 @@ public class PaperAirplaneLauncher {
 
     public void launchPaperAirplane() {
         airplaneLauncher.setPosition(LAUNCH_POSITION);
+
     }
 }
