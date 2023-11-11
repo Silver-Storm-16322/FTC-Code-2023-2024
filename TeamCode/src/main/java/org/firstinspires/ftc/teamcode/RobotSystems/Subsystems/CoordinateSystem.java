@@ -26,13 +26,14 @@ public class CoordinateSystem {
      */
     public void initializeImu(HardwareMap hardwareMap) {
 
-        // Initialize hardware variables.
-        imu = hardwareMap.get(IMU.class, "imu");
-
-        // Tell the Control hub which direction it's facing.
+        // Create the IMU parameters that tell the IMU what direction its facing and allow us to use the
+        // robot's rotation for various calculations.
         IMU.Parameters imuSettings = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.UP,
                 RevHubOrientationOnRobot.UsbFacingDirection.RIGHT));
+
+        // Initialize the IMU
+        imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(imuSettings);
 
         // reset the imu's angle.
@@ -107,7 +108,37 @@ public class CoordinateSystem {
     }
 
     /**
-     * Updates the robot's position.
+     * Given an angle (in radians), calculate the minimum amount the robot has to rotate in order to be facing in
+     * the provided angle's direction.
+     *
+     * @param targetRotation An angle in radians.
+     * @return The minimum amount the robot has to rotate by (in radians) in order to be facing in the direction
+     *         of the targetRotation.
+     */
+    public double getDistanceToRotation(double targetRotation) {
+
+        // Update the robot's rotation so that the below calculations are accurate.
+        updateRotation();
+
+        // Calculate the difference between the angle we want to rotate to and the direction the robot is facing.
+        double rotationalDifference = targetRotation - robotPosition.rotation;
+
+        // We use while-loops instead of if-statements in case the angle is greater than 360 degrees
+        // so that we are still able to calculate the minimum rotation the robot has to make in order to
+        // be facing the provided angle.
+        while (rotationalDifference > Math.PI) {
+            rotationalDifference -= 2 * Math.PI;
+        }
+        while (rotationalDifference < Math.PI) {
+            rotationalDifference -= 2 * Math.PI;
+        }
+
+        // Return the minimum angle (in radians) the robot has to rotate by in order to be facing the provided angle.
+        return rotationalDifference;
+    }
+
+    /**
+     * Updates the robot's rotation.
      */
     public void updateRotation() {
         robotPosition.rotation = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);

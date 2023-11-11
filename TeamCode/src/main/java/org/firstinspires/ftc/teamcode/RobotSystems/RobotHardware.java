@@ -32,8 +32,8 @@ public class RobotHardware {
         manipulator = new Manipulator();
         manipulator.init(myOpMode.hardwareMap, myOpMode.telemetry);
 
-        paperAirplaneLauncher = new PaperAirplaneLauncher();
-        paperAirplaneLauncher.init(myOpMode.hardwareMap, myOpMode.telemetry);
+        paperAirplaneLauncher = new PaperAirplaneLauncher(myOpMode);
+        paperAirplaneLauncher.init();
 
         aprilTagDetection = new Vision();
         aprilTagDetection.init(myOpMode.hardwareMap, myOpMode.telemetry);

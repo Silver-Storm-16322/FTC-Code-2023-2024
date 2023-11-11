@@ -2,30 +2,41 @@ package org.firstinspires.ftc.teamcode.RobotSystems.Subsystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.SubsystemEnums.DriveMode;
+import org.firstinspires.ftc.teamcode.Utility.TurnToPIDController;
 import org.firstinspires.ftc.teamcode.Utility.Vector3;
 
 public class DriveTrain {
     private LinearOpMode myOpMode = null;
     public CoordinateSystem coordinateSystem = null;
-    private DcMotor rightFrontDrive = null;
-    private DcMotor rightBackDrive = null;
-    private DcMotor leftFrontDrive = null;
-    private DcMotor leftBackDrive = null;
+    private DcMotorEx rightFrontDrive = null;
+    private DcMotorEx rightBackDrive = null;
+    private DcMotorEx leftFrontDrive = null;
+    private DcMotorEx leftBackDrive = null;
     private DriveMode current_drive_mode = DriveMode.DEFAULT_DRIVE;
-    public static final double STRAIF_OFFSET = 1.1;
+    public static final double STRAFE_OFFSET = 1.1;
 
     public DriveTrain(LinearOpMode opMode) {myOpMode = opMode; }
 
+    /**
+     * Initializes all of the driveTrain's hardware.
+     */
     public void init() {
 
         // Initialize hardware values
-        rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "right_front_drive");
-        rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "right_back_drive");
-        leftFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "left_front_drive");
-        leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "left_back_drive");
+        rightFrontDrive = myOpMode.hardwareMap.get(DcMotorEx.class, "right_front_drive");
+        rightBackDrive = myOpMode.hardwareMap.get(DcMotorEx.class, "right_back_drive");
+        leftFrontDrive = myOpMode.hardwareMap.get(DcMotorEx.class, "left_front_drive");
+        leftBackDrive = myOpMode.hardwareMap.get(DcMotorEx.class, "left_back_drive");
+
+        // Set the ZeroPowerBehaviour to BRAKE so that the robot stops faster.
+        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Run all motors using RUN_WITH_ENCODER so that we can use encoder related methods.
         // Commented out for bug testing purposes.
@@ -69,7 +80,7 @@ public class DriveTrain {
 
         // Recalculate Values
         double newDriveFrontBack = driveFrontBack * speedMultiplier;
-        double newDriveLeftRight = driveLeftRight * STRAIF_OFFSET * speedMultiplier; // Multiple by STRAIF_OFFSET to counteract imperfect straifing.
+        double newDriveLeftRight = driveLeftRight * STRAFE_OFFSET * speedMultiplier; // Multiple by STRAIF_OFFSET to counteract imperfect straifing.
         double newRotation = rotation * speedMultiplier;
 
         // Calculate the value that all o the values need to be divided by in order for the robot's
@@ -103,7 +114,8 @@ public class DriveTrain {
         leftBackDrive.setPower(leftBackPower);
 
         // Update coordinate position
-        coordinateSystem.updateRobotPosition(rightFrontDrive.getCurrentPosition(), rightBackDrive.getCurrentPosition(),
+        coordinateSystem.updateRobotPosition(
+                rightFrontDrive.getCurrentPosition(), rightBackDrive.getCurrentPosition(),
                 leftFrontDrive.getCurrentPosition(), leftBackDrive.getCurrentPosition());
 
        // Tell the user what position the robot is located at.
@@ -120,22 +132,23 @@ public class DriveTrain {
         // Convert the target position's rotation to radians.
         targetPosition.rotation = Math.toRadians(targetPosition.rotation);
 
-        // Get distance to the target from the robot's coordinate system.
+        // Get distance to the target from the robot's coordinate system and rotate it relative
+        // to the robot's rotation.
         Vector3 targetPositionDistance = coordinateSystem.getDistanceToPosition(targetPosition);
 
         // Convert the distance to the target position from inches and radians to encoder counts.
         targetPositionDistance.multiplyBy(CoordinateSystem.TICKS_PER_INCH);
 
         // Move robot to the rotated position.
-        setTargetPosition(targetPositionDistance);
+        driveToRelativePosition(targetPositionDistance);
     }
 
     /**
-     * Moves the robot to a specified target position.
+     * Moves the robot a specified amount of inches in any direction relative to the robot.
      *
      * @param targetPosition The position you want the robot to move to.
      */
-    public void setTargetPosition(Vector3 targetPosition) {
+    public void driveToRelativePosition(Vector3 targetPosition) {
 
         // Calculate encoder changes for each individual motor
         int rightFrontTarget = rightFrontDrive.getCurrentPosition() + (int) (targetPosition.y - targetPosition.x);
@@ -159,55 +172,85 @@ public class DriveTrain {
         double averageEncoderPosition = 0;
 
         // Set starting motor power
-        double targetPower = .6;
+        double targetPower = .8;
         rightFrontDrive.setPower(targetPower);
         rightBackDrive.setPower(targetPower);
         leftFrontDrive.setPower(targetPower);
         leftBackDrive.setPower(targetPower);
 
-        /*
-        * PIT Controller -- WIP (I plan on adding / working on this later to improve preference. ) - Cameron
-        /
-        double kp = 0;
-        double ki = 0;
-        double kd = 0;
-
-        while () {
-
-        }
-        */
+        // (averageTargetPosition - averageEncoderPosition) / CoordinateSystem.TICKS_PER_INCH > 0.05 ||
 
         // Constantly update the user as to where the robot is on the field.
-        while ((averageTargetPosition - averageEncoderPosition) / CoordinateSystem.TICKS_PER_INCH > 0.1 || rightFrontDrive.isBusy() &&
-                rightBackDrive.isBusy() && leftFrontDrive.isBusy() && leftBackDrive.isBusy()) {
+        while (rightFrontDrive.isBusy() || rightBackDrive.isBusy() || leftFrontDrive.isBusy() || leftBackDrive.isBusy()) {
 
             // Calculate Average Encoder Position
-            averageEncoderPosition = (double)(rightFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition() +
+            averageEncoderPosition = (double)(
+                    rightFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition() +
                     leftFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition()) / 4;
 
-            // Display robot's position
-            coordinateSystem.updateRobotPosition(rightFrontDrive.getCurrentPosition(), rightBackDrive.getCurrentPosition(),
+            // Update robot's position
+            coordinateSystem.updateRobotPosition(
+                    rightFrontDrive.getCurrentPosition(), rightBackDrive.getCurrentPosition(),
                     leftFrontDrive.getCurrentPosition(), leftBackDrive.getCurrentPosition());
 
-            // Output robot's position
+            // Show the driver the robot's current position
             displayRobotPosition();
         }
 
-        // Update the robot's position to allow for more accurate data.
-        coordinateSystem.updateRobotPosition(rightFrontDrive.getCurrentPosition(), rightBackDrive.getCurrentPosition(),
-                leftFrontDrive.getCurrentPosition(), leftBackDrive.getCurrentPosition());
-
-        // Stop motors after reaching the target position
-        rightFrontDrive.setPower(0);
-        rightBackDrive.setPower(0);
-        leftFrontDrive.setPower(0);
-        leftBackDrive.setPower(0);
+        // Stop the robot from moving //
+        setDrivePower(0, 0, 0, 0);
 
         // Set motor run modes back to RUN_USING_ENCODER
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        // Rotate the robot to the desired position if the robot is not already within 1 degree of
+        // the target's rotation.
+        if (coordinateSystem.getPosition().rotation - targetPosition.rotation > Math.toRadians(1)) {
+            rotateTo(targetPosition.rotation);
+        }
+    }
+
+    /**
+     * Rotates the robot so that its facing the provided direction. Accounts for any disturbances that
+     * might disrupt this process by using a PID controller, which allows us to respond to these disturbances.
+     *
+     * @param targetAnge The angle (in radians) you want the robot to be facing.
+     */
+    public void rotateTo(double targetAnge) {
+
+        // Create a TurnToPIDController to handle the robot's rotation.
+        TurnToPIDController rotationController = new TurnToPIDController(0.01, 0, 0.003);
+
+        // Calculate the difference between the robot's current
+        double error = coordinateSystem.getDistanceToRotation(targetAnge);
+
+        // Continues rotating until the robot is within 1 degree of it's targetAngle or until
+        // the opMode is stopped.
+        while (myOpMode.opModeIsActive() && Math.abs(error) > Math.toRadians(1)) {
+
+            // Update the error (Difference between targetPosition and currentPosition)
+            error = coordinateSystem.getDistanceToRotation(targetAnge);
+
+            // Calculate the power required to turn the robot.
+            double targetPower = rotationController.update(error);
+
+            // Apply motor powers to each motor.
+            setDrivePower(targetPower, targetPower, -targetPower, -targetPower);
+
+            // Update robot's position
+            coordinateSystem.updateRobotPosition(
+                    rightFrontDrive.getCurrentPosition(), rightBackDrive.getCurrentPosition(),
+                    leftFrontDrive.getCurrentPosition(), leftBackDrive.getCurrentPosition());
+
+            // Show the driver the robot's current position
+            displayRobotPosition();
+        }
+
+        // Stop the robot from moving
+        setDrivePower(0, 0, 0, 0);
     }
 
     /**
@@ -232,18 +275,10 @@ public class DriveTrain {
 
     /**
      * Switch the robot from one mode to another, (allowing for the user to go slower or faster)
-     * However, if the button pressed attempts to set the robots mode to the same mode it already
-     * in, then reset the mode to default.
      *
      * @param drive_mode The drive mode the user wants to change the robot to.
      */
     public void setDriveMode(DriveMode drive_mode) {
-
-        // Check if drive_mode is the same as the current drive mode.
-        if (drive_mode == current_drive_mode) {
-            current_drive_mode = DriveMode.DEFAULT_DRIVE;
-        } else {
-            current_drive_mode = drive_mode;
-        }
+        current_drive_mode = drive_mode;
     }
 }

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.OpModes.Teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.SubsystemEnums.DriveMode;
 import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.SubsystemEnums.LinearSlideStage;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.RobotSystems.RobotHardware;
 @TeleOp(name="Robot Centric Mecanum", group="Mecanum Drive Trains 2023-2024")
 public class RobotCentricMecanum extends LinearOpMode {
     RobotHardware robot = new RobotHardware(this);
+
     @Override
     public void runOpMode() {
 
@@ -45,21 +47,25 @@ public class RobotCentricMecanum extends LinearOpMode {
             }
 
             // Sets the drive mode to precise drive. (Goes 4* slower than default)
-            // However, if the robot is already in precise drive, the it reverts to default drive.
             if (gamepad1.left_bumper) {
                 robot.driveTrain.setDriveMode(DriveMode.PRECISE_DRIVE);
             }
 
             // Sets the drive mode to sensitive drive. (Always goes max speed)
-            // However, if the robot is already in sensitive drive, the it reverts to default drive.
             if (gamepad1.right_bumper) {
                 robot.driveTrain.setDriveMode(DriveMode.SENSITIVE_DRIVE);
             }
 
+            // Sets the drive mode to its default mode.
             if (gamepad1.y) {
-                robot.paperAirplaneLauncher.launchPaperAirplane();
+                robot.driveTrain.setDriveMode(DriveMode.DEFAULT_DRIVE);
             }
 
+            // These buttons are more difficult to press meaning they are less likely to be accidentally hit
+            // during stressful moments.
+            if (gamepad1.right_trigger > 0.5 || gamepad1.left_trigger > 0.5) {
+                robot.paperAirplaneLauncher.launchPaperAirplane();
+            }
 
             // left_stick_y is forwards and backwards,
             // left_stick_x is left and right, and right_stick_x is the rotation

@@ -46,18 +46,6 @@ public class Vector3 extends Vector2 {
     }
 
     /**
-     * Divides all of the vector's values by the specified double.
-     *
-     * @param divisor The number you want to divide all of the vector's values by.
-     */
-    @Override
-    public void divideBy(double divisor) {
-        this.x /= divisor;
-        this.y /= divisor;
-        this.rotation /= divisor;
-    }
-
-    /**
      * This method multiplies this vector's values by those from the specified Vector3.
      * Multiplies this vector's X, Y, and Rotation values by those from the specified Vector3.
      *
@@ -68,33 +56,5 @@ public class Vector3 extends Vector2 {
         this.x *= otherVector.x;
         this.y *= otherVector.y;
         this.rotation *= otherVector.rotation;
-    }
-
-    /**
-     * Multiplies all of the vector's values by the specified double.
-     *
-     * @param multiplier The number you want to multiply all of the vectors values by.
-     */
-    @Override
-    public void multiplyBy(double multiplier) {
-        this.x *= multiplier;
-        this.y *= multiplier;
-        this.rotation *= multiplier;
-    }
-
-    /**
-     * Rotates the vector around its origin by the specified angle in radians.
-     * Additionally, updates the vector's rotation to account for the applied rotation angle.
-     *
-     * @param angle The angle (in radians) by which the vector should be rotated.
-     */
-    @Override
-    public void rotateVector(double angle) {
-
-        // Rotate this vector's X and Y values around its origin by the specified angle (In radians).
-        super.rotateVector(angle);
-
-        // Update the Vector3's rotation to account for the applied rotation angle.
-        this.rotation -= angle;
     }
 }

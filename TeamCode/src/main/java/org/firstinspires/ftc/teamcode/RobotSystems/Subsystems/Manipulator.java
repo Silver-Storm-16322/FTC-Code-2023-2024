@@ -20,7 +20,8 @@ public class Manipulator {
         rightGripperServo = hardwareMap.get(Servo.class, "rightGripperServo");
         leftGripperServo = hardwareMap.get(Servo.class, "leftGripperServo");
 
-        // Reverse movement direction of one of the servos so we can use the same value for positions for both servos.
+        // Reverse movement direction of one of the servos so we can use the same value for
+        // positions for both servos.
         rightGripperServo.setDirection(Servo.Direction.REVERSE);
         leftGripperServo.setDirection(Servo.Direction.FORWARD);
 
