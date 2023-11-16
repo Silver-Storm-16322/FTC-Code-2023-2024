@@ -35,9 +35,7 @@ public class PaperAirplaneLauncher {
         airplaneLauncher.setPosition(LAUNCH_POSITION);
 
         // Waits until either the opMode is stopped, or the paper airplane launcher is launched.
-        while (myOpMode.opModeIsActive() && airplaneLauncher.getPosition() != LAUNCH_POSITION) {
-            myOpMode.idle();
-        }
+        myOpMode.sleep(1000);
 
         // Reset the servo back to it's idle position so that another paper airplane can be loaded
         // when the round is over. (Saves a bunch of time :D)

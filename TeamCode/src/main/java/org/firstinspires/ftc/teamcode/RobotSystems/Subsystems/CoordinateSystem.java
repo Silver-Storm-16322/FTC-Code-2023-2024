@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.Utility.Vector2;
-import org.firstinspires.ftc.teamcode.Utility.Vector3;
+import org.firstinspires.ftc.teamcode.Utility.PositionDataTypes.FieldPosition;
+import org.firstinspires.ftc.teamcode.Utility.PositionDataTypes.RobotPosition;
 
 public class CoordinateSystem {
 
@@ -15,7 +15,7 @@ public class CoordinateSystem {
     private double lastRightBackPosition = 0;
     private double lastLeftFrontPosition = 0;
     private double lastLeftBackPosition = 0;
-    private Vector3 robotPosition = new Vector3(0, 0, 0);
+    private RobotPosition robotPosition = new RobotPosition(0, 0, 0);
     public static final double TICKS_PER_INCH = 57.953;
 
     /**
@@ -62,7 +62,7 @@ public class CoordinateSystem {
         double forwardsBackwardsChange = (changeRightFront + changeRightBack + changeLeftFront + changeLeftBack) / 4;
 
         // Create a Vector2 storing the average positional change in the robot.
-        Vector2 positionChange = new Vector2(leftRightChange, forwardsBackwardsChange);
+        FieldPosition positionChange = new FieldPosition(leftRightChange, forwardsBackwardsChange);
 
         // Update the robot's rotation so that we can account for the robot's rotation when calculating
         // the final position.
@@ -92,13 +92,13 @@ public class CoordinateSystem {
      * @param targetPosition The position you want to move the robot to.
      * @return Returns a Vector3 containing the distance to the
      */
-    public Vector3 getDistanceToPosition(Vector3 targetPosition) {
+    public RobotPosition getDistanceToPosition(RobotPosition targetPosition) {
 
         // Update the robot's rotation so that the below calculation involving rotations are accurate.
         updateRotation();
 
         // Calculate how far away the robot is from the target position.
-        targetPosition.subtractValues(new Vector2(robotPosition.x, robotPosition.y));
+        targetPosition.subtractValues(new FieldPosition(robotPosition.x, robotPosition.y));
 
         // Rotate the Target Position to account for the robot's rotation.
         targetPosition.rotateVector(robotPosition.rotation);
@@ -129,8 +129,8 @@ public class CoordinateSystem {
         while (rotationalDifference > Math.PI) {
             rotationalDifference -= 2 * Math.PI;
         }
-        while (rotationalDifference < Math.PI) {
-            rotationalDifference -= 2 * Math.PI;
+        while (rotationalDifference < -Math.PI) {
+            rotationalDifference += 2 * Math.PI;
         }
 
         // Return the minimum angle (in radians) the robot has to rotate by in order to be facing the provided angle.
@@ -149,7 +149,7 @@ public class CoordinateSystem {
      *
      * @return Returns the robot's X and Y position (In inches) and rotation )in radians)
      */
-    public Vector3 getPosition() {
+    public RobotPosition getPosition() {
         return robotPosition;
     }
 }

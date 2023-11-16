@@ -33,7 +33,8 @@ public class TurnToPIDController {
     public double update(double error) {
 
         // Proportional Calculations //
-        // Convert error to degrees if it doesn't work.
+        error = Math.toDegrees(error);
+
         // Integral Calculations //
         accumulatedError += error * timer.seconds();
 
@@ -56,7 +57,7 @@ public class TurnToPIDController {
 
         // Motor power calculations //
         // Note: tanh() limits values between -1 and 1.
-        double motorPower = 0.1 * Math.signum(error) * 0.9 * Math.tanh(
+        double motorPower = 0.1 * Math.signum(error) + 0.9 * Math.tanh(
                 kp * error + (ki * accumulatedError) + (kd * derivative));
 
         // Output the calculated result

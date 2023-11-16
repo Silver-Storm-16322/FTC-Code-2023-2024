@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.SubsystemEnums;
 
 public enum DriveMode {
-    DEFAULT_DRIVE(1),
-    PRECISE_DRIVE (0.25),
+    DEFAULT_DRIVE   (1),
+    PRECISE_DRIVE   (0.25),
     SENSITIVE_DRIVE (10);
 
     private final double speedMultiplier;

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
+package org.firstinspires.ftc.teamcode.OpModes.Autonomous.PushbotAutos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.RobotSystems.RobotHardware;
 import org.firstinspires.ftc.teamcode.Utility.PositionDataTypes.RobotPosition;
 
-@Autonomous (name = "DriveToPositionTest", group = "Debug OpModes")
-public class DriveToPositionTest extends LinearOpMode {
+@Autonomous
+public class RedLowScoringAuto extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(this);
     @Override
@@ -24,11 +24,11 @@ public class DriveToPositionTest extends LinearOpMode {
         while (opModeIsActive()) {
 
             // Drive the robot to a bunch op pre-planned positions (in inches) //
-            robot.driveTrain.driveRobotToPosition(new RobotPosition(0, 0, 0));
-            robot.driveTrain.driveRobotToPosition(new RobotPosition(14, 0, 0));
-            robot.driveTrain.driveRobotToPosition(new RobotPosition(0, 14, 0));
-            robot.driveTrain.driveRobotToPosition(new RobotPosition(-14, 0, 0));
-            robot.driveTrain.driveRobotToPosition(new RobotPosition(0, -14, 0));
+            robot.driveTrain.driveRobotToPosition(new RobotPosition(-5, 0, 0));
+            robot.driveTrain.driveRobotToPosition(new RobotPosition(-5, 35, 0));
+            robot.driveTrain.driveRobotToPosition(new RobotPosition(-5, 35, 90));
+
+            sleep(90000000);
         }
     }
 }

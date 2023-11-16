@@ -8,94 +8,72 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.WhiteBalanceControl;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.concurrent.TimeUnit;
 
 public class Vision {
 
     private Telemetry robotTelemetry = null;
-    private WebcamName webcam = null;
-    private AprilTagProcessor tagProcessor = null;
+    private WebcamName camera = null;
+    private AprilTagProcessor aprilTagProcessor = null;
+    private TfodProcessor tensorFlowProcessor = null;
     private VisionPortal visionPortal = null;
     public static final double CAMERA_OFFSET = -5.9375;
-
+    public static final int EXPOSURE = 100;
+    public static final int GAIN = 100;
+    public static final int TEMPERATURE = 10;
 
     public void init(HardwareMap hardwareMap, Telemetry telemetry) {
 
         // Initialize Hardware Values
-        webcam = hardwareMap.get(WebcamName.class, "camera");
+        camera = hardwareMap.get(WebcamName.class, "camera");
 
-        // Initialize the tagProcesses that will
-        tagProcessor = new AprilTagProcessor.Builder()
+        // Create TensorFlow processor
+        tensorFlowProcessor = TfodProcessor.easyCreateWithDefaults();
 
-                .setDrawAxes(true)                                                  // Shows the tag's axis.
-                .setDrawCubeProjection(true)                                        // Draws a cube off of the april tag to better se where the camera thinks the tag is pointing.
-                .setDrawTagID(true)                                                 // Shows the ID of the april tag.
-                .setDrawTagOutline(true)                                            // Draws an outline around the april tag.
+        // Create AprilTag processor
+        aprilTagProcessor = AprilTagProcessor.easyCreateWithDefaults();
 
-                .build();
+        // Set up the vision portal.
+        visionPortal = VisionPortal.easyCreateWithDefaults(camera, tensorFlowProcessor, aprilTagProcessor);
 
-        visionPortal = new VisionPortal.Builder()
+        // Setup gain and exposure.
+        ExposureControl exposureControl = visionPortal.getCameraControl(ExposureControl.class);
+        GainControl gainControl = visionPortal.getCameraControl(GainControl.class);
 
-                .addProcessor(tagProcessor)                                         // Add the tag processor here
-                .setCamera(webcam)                                                  // Add the camera on the robot here.
-                .setCameraResolution(new Size(640, 480))               // Higher res, sees farther.uses more CPU
-                .enableLiveView(true)                                               // Allows the camera to display what it sees on the driver hub.
+        // Get Maximum and minimum gain and exposure values.
+        double minExposure = exposureControl.getMinExposure(TimeUnit.MICROSECONDS);
+        double maxExposure = exposureControl.getMaxExposure(TimeUnit.MICROSECONDS);
+        double minGain = gainControl.getMinGain();
+        double maxGain   = gainControl.getMaxGain();
 
-                .build();
+        // Set exposure mode to manual. (Also sets manual gain)
+        exposureControl.setMode(ExposureControl.Mode.Manual);
 
-        // Wait until the cameras-tarts streaming. This is done because if we adjust the camera's
-        // values before it starts streaming, then the opMode will crash.
-        while (visionPortal.getCameraState() != VisionPortal.CameraState.STREAMING) {}
+        // Set exposure and gain values.
+        exposureControl.setExposure(EXPOSURE, TimeUnit.MICROSECONDS);
+        gainControl.setGain(GAIN);
 
-        // Create exposure and apply it to the camera
-        ExposureControl exposure = visionPortal.getCameraControl(ExposureControl.class);
-        exposure.setMode(ExposureControl.Mode.Manual);
-        exposure.setExposure(15, TimeUnit.MILLISECONDS);
+        // Setup white balance control methods.
+        WhiteBalanceControl wbControl = visionPortal.getCameraControl(WhiteBalanceControl.class);
 
-        // Create gain and apply it to the camera.
-        GainControl gain = visionPortal.getCameraControl(GainControl.class);
-        gain.setGain(255);
+        // White balance control
+        int minTemperature = wbControl.getMinWhiteBalanceTemperature();
+        int maxTemperature = wbControl.getMaxWhiteBalanceTemperature();
 
-        // Allows this drivetrain to communicate with the user.
-        robotTelemetry = telemetry;
+        // Set balance mode to manual.
+        wbControl.setMode(WhiteBalanceControl.Mode.MANUAL);
+
+        // Set temperature.
+        wbControl.setWhiteBalanceTemperature(TEMPERATURE);
 
         // Tell user that the april tags were successfully initialized
         robotTelemetry.addData("->","AprilTagDetection successfully initialized.");
-    }
-
-    public boolean aprilTagVisible() {
-        return tagProcessor.getDetections().size() != 0;
-    }
-
-    public org.firstinspires.ftc.vision.apriltag.AprilTagDetection getClosestTagWithPositionData() {
-
-        double closestTagDistance = 9999;
-        org.firstinspires.ftc.vision.apriltag.AprilTagDetection closestTag = null;
-
-        for (org.firstinspires.ftc.vision.apriltag.AprilTagDetection tag : tagProcessor.getDetections()) {
-
-            if (tag.ftcPose == null) { continue; }
-
-            if (tag.ftcPose.range < closestTagDistance) {
-                closestTagDistance = tag.ftcPose.range;
-                closestTag = tag;
-            }
-        }
-
-        return closestTag;
-    }
-
-    public AprilTagDetection getTagWithId(int specifiedTagId) {
-        for (AprilTagDetection tag : tagProcessor.getDetections()) {
-            if (tag.id == specifiedTagId) {
-                return tag;
-            }
-        }
-        return null;
     }
 }
 
