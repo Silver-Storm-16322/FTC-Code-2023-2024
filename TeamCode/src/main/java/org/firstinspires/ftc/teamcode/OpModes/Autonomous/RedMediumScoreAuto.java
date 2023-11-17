@@ -20,7 +20,6 @@ public class RedMediumScoreAuto extends LinearOpMode {
         // Initialize RobotHardware
         robot.init();
 
-
         // Wait for the OpMode to be started.
         waitForStart();
     }
