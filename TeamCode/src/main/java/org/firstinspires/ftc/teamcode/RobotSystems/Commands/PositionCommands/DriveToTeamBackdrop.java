@@ -27,6 +27,8 @@ public class DriveToTeamBackdrop extends Commands {
      *              <li> Drives through the side door near the alliance's spike marks  </li>
      *              <li> Drives through the closest side-door to where the robot started </li>
      *             </ol>
+     *             Any other value will cause the robot to drive to the desired position through the
+     *             very center of the field.
      */
     public DriveToTeamBackdrop(int path) {
         this.path = path;
@@ -49,7 +51,7 @@ public class DriveToTeamBackdrop extends Commands {
         If the robot doesn't have a clear shot towards the backdrop, then drive to a position derived
         from the path number specified above where the robot can drive to the backdrop.
          */
-        if (robotPosition.x < 0) {
+        if (robotPosition.x < 24) {
             navigateToPosition(driveTrain, robotPosition);
         }
 
@@ -88,10 +90,10 @@ public class DriveToTeamBackdrop extends Commands {
         scored pixel. If we can't drive forwards because we will descore a pixel, then reverse so
         that we can avoid running into a pole and ruining the entire auto.
          */
-        if (robotPosition.x >= -24 && !(Math.abs(robotPosition.x) > 24 && Math.abs(robotPosition.x) < 48) || path == 2) {
+        if (robotPosition.x >= -24 && !(Math.abs(robotPosition.y) > 24 && Math.abs(robotPosition.y) < 48) || path == 2) {
             driveTrain.driveRobotToPosition(new RobotPosition(24, robotPosition.y, Math.toRadians(-90)));
             return;
-        } else if (Math.abs(robotPosition.x) > 24 && Math.abs(robotPosition.x) < 48) {
+        } else if (Math.abs(robotPosition.y) > 24 && Math.abs(robotPosition.y) < 48) {
             driveTrain.driveRobotToPosition(new RobotPosition(-48, robotPosition.y, Math.toRadians(-90)));
         }
 
