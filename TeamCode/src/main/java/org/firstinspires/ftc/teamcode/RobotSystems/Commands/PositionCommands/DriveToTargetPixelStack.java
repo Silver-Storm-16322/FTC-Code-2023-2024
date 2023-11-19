@@ -1,4 +1,6 @@
-package org.firstinspires.ftc.teamcode.RobotSystems.Commands;
+package org.firstinspires.ftc.teamcode.RobotSystems.Commands.PositionCommands;
+
+import org.firstinspires.ftc.teamcode.RobotSystems.Commands.Commands;
 
 public class DriveToTargetPixelStack extends Commands {
     // Flag to tell when the command has finished running.

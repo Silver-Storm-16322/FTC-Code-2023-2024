@@ -1,5 +1,6 @@
-package org.firstinspires.ftc.teamcode.RobotSystems.Commands;
+package org.firstinspires.ftc.teamcode.RobotSystems.Commands.PositionCommands;
 
+import org.firstinspires.ftc.teamcode.RobotSystems.Commands.Commands;
 import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.Utility.PositionDataTypes.FieldPosition;
 import org.firstinspires.ftc.teamcode.Utility.PositionDataTypes.RobotPosition;
