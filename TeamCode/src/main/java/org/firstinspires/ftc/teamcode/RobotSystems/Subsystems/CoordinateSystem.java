@@ -15,6 +15,7 @@ public class CoordinateSystem {
     private double lastRightBackPosition = 0;
     private double lastLeftFrontPosition = 0;
     private double lastLeftBackPosition = 0;
+    private double rotationalOffset = 0;
     private RobotPosition robotPosition = new RobotPosition(0, 0, 0);
     public static final double TICKS_PER_INCH = 57.953;
 
@@ -36,7 +37,7 @@ public class CoordinateSystem {
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(imuSettings);
 
-        // reset the imu's angle.
+        // Reset the imu's angle.
         imu.resetYaw();
     }
 
@@ -141,7 +142,7 @@ public class CoordinateSystem {
      * Updates the robot's rotation.
      */
     public void updateRotation() {
-        robotPosition.rotation = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        robotPosition.rotation = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS) + rotationalOffset;
     }
 
     /**
@@ -150,6 +151,22 @@ public class CoordinateSystem {
      * @return Returns the robot's X and Y position (In inches) and rotation )in radians)
      */
     public RobotPosition getPosition() {
+        // Update the robot's rotation so that the returned value is accurate.
+        updateRotation();
+
+        // Return the robot's position.
         return robotPosition;
+    }
+
+    /**
+     * Sets the robot's position to the provided RobotPosition.
+     * @param position The RobotPosition you want to set the robot's position to.
+     * @param rotationalOffset How much the robot is rotate by. (We set this to 180 for blue alliance
+     *                         so that our robot can share the same rotations and coordinates as red
+     *                         alliance.
+     */
+    public void setRobotPosition(RobotPosition position, double rotationalOffset) {
+        this.robotPosition = position;
+        this.rotationalOffset = rotationalOffset;
     }
 }

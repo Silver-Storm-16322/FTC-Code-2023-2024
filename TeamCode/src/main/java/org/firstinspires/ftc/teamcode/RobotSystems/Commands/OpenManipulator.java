@@ -1,13 +1,13 @@
 package org.firstinspires.ftc.teamcode.RobotSystems.Commands;
 
-public class IntakeOn extends Commands {
+public class OpenManipulator extends Commands {
     @Override
     public void run() {
 
     }
 
     @Override
-    public boolean commandFinished() {
+    public boolean isCommandFinished() {
         return false;
     }
 }
