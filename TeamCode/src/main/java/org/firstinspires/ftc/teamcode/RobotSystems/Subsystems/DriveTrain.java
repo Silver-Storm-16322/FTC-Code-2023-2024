@@ -209,7 +209,9 @@ public class DriveTrain {
 
         // Rotate the robot to the desired position if the robot is not already within 1 degree of
         // the target's rotation.
-        rotateTo(targetPosition.rotation);
+        if (Math.abs(coordinateSystem.getDistanceToRotation(targetPosition.rotation)) < Math.toRadians(1)) {
+            rotateTo(targetPosition.rotation);
+        }
     }
 
     /**

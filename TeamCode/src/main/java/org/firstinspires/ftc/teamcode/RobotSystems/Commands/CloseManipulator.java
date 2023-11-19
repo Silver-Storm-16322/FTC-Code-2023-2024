@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode.RobotSystems.Commands;
 
-public class IntakeOff extends Commands {
+public class CloseManipulator extends Commands {
+
     @Override
     public void run() {
-
+        // Comment
     }
 
     @Override
-    public boolean commandFinished() {
+    public boolean isCommandFinished() {
         return false;
     }
 }

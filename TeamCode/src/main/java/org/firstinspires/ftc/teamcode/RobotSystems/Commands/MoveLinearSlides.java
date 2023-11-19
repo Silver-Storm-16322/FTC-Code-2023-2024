@@ -20,7 +20,7 @@ public class MoveLinearSlides extends Commands {
     }
 
     @Override
-    public boolean commandFinished() {
+    public boolean isCommandFinished() {
         return true;
     }
 }

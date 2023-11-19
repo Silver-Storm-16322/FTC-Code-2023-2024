@@ -4,6 +4,9 @@ import org.firstinspires.ftc.teamcode.Utility.Timer;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ *
+ */
 public class WaitCommand extends Commands {
     private Timer timer = null;
 
@@ -31,7 +34,7 @@ public class WaitCommand extends Commands {
      * @return True if the specified time has passed since the command started.
      */
     @Override
-    public boolean commandFinished() {
+    public boolean isCommandFinished() {
         return timer.done();
     }
 }
