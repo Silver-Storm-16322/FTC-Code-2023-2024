@@ -1,14 +1,15 @@
-package org.firstinspires.ftc.teamcode.RobotSystems.Commands;
+package org.firstinspires.ftc.teamcode.RobotSystems.Commands.ManipulatorAndSlideCommands;
 
+import org.firstinspires.ftc.teamcode.RobotSystems.Commands.Commands;
 import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.SubsystemEnums.LinearSlideStage;
 
 public class MoveLinearSlides extends Commands {
     LinearSlideStage targetStage = null;
 
     /**
-     * Sets the target stage that the linear slides will move to when this command is run.
+     * Sets what stage the command will move the LinearSlides to.
      *
-     * @param targetStage The stage you want the linear slides to raise to.
+     * @param targetStage The stage you want the LinearSlides to move to.
      */
     public MoveLinearSlides(LinearSlideStage targetStage) {
         this.targetStage = targetStage;

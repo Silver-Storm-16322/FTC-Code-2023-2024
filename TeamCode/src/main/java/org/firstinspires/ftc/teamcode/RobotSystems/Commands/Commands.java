@@ -5,7 +5,6 @@ import org.firstinspires.ftc.teamcode.RobotSystems.RobotHardware;
 import org.firstinspires.ftc.teamcode.Utility.Autonomous.AutoParams;
 
 public abstract class Commands {
-
     protected RobotHardware robot;
     protected Telemetry telemetry;
     protected AutoParams autoParams;

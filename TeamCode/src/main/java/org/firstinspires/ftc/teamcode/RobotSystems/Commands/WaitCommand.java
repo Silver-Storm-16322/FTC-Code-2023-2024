@@ -5,7 +5,8 @@ import org.firstinspires.ftc.teamcode.Utility.Timer;
 import java.util.concurrent.TimeUnit;
 
 /**
- *
+ * WaitCommand waits for a specified duration  in the provided TimeUnit (e.g., 1000 milliseconds,
+ * 100 microseconds, 1 second, etc.).
  */
 public class WaitCommand extends Commands {
     private Timer timer = null;
