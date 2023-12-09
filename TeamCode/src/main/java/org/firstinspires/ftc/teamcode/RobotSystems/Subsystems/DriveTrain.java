@@ -6,19 +6,27 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.SubsystemEnums.DriveMode;
-import org.firstinspires.ftc.teamcode.Utility.TurnToPIDController;
+import org.firstinspires.ftc.teamcode.Utility.Controllers.PIDController;
+import org.firstinspires.ftc.teamcode.Utility.FileEx;
+import org.firstinspires.ftc.teamcode.Utility.InputController;
+import org.firstinspires.ftc.teamcode.Utility.Controllers.SingleMotorPIDController;
+import org.firstinspires.ftc.teamcode.Utility.PositionDataTypes.FieldPosition;
+import org.firstinspires.ftc.teamcode.Utility.Controllers.TurnToPIDController;
 import org.firstinspires.ftc.teamcode.Utility.PositionDataTypes.RobotPosition;
 
 public class DriveTrain {
     private LinearOpMode myOpMode = null;
     public CoordinateSystem coordinateSystem = null;
+    public PIDController pidController = null; // Public so that it can be tuned within an OpMode.
+    private FileEx pidCoefficients = new FileEx("PIDCoefficients.txt");
+    private DriveMode current_drive_mode = DriveMode.DEFAULT_DRIVE;
     private DcMotorEx rightFrontDrive = null;
     private DcMotorEx rightBackDrive = null;
     private DcMotorEx leftFrontDrive = null;
     private DcMotorEx leftBackDrive = null;
-    private DriveMode current_drive_mode = DriveMode.DEFAULT_DRIVE;
+    private boolean fieldCentric = false;
     public static final double STRAFE_OFFSET = 1.1;
-
+    public static final double MAX_AUTONOMOUS_SPEED = .7;
     public DriveTrain(LinearOpMode opMode) {myOpMode = opMode; }
 
     /**
@@ -45,10 +53,10 @@ public class DriveTrain {
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Note: Most motors have one side reverse.
         // Due to this, we need to reverse one side of the motors so that the robot can drive straight.
@@ -60,6 +68,14 @@ public class DriveTrain {
         // Initialize Coordinate System
         coordinateSystem = new CoordinateSystem();
         coordinateSystem.initializeImu(myOpMode.hardwareMap);
+
+        // Initialize PID Controller
+        pidController = new PIDController(0, 0, 0);
+
+        // Set all of the PID coefficients to the values stored in the file.
+        pidController.setKp(pidCoefficients.getValue("kp", Double.class));
+        pidController.setKi(pidCoefficients.getValue("ki", Double.class));
+        pidController.setKd(pidCoefficients.getValue("kd", Double.class));
 
         // Tell the user that this subsystem has been successfully initialized.
         myOpMode.telemetry.addData("->", "DriveTrain successfully initialized");
@@ -75,13 +91,37 @@ public class DriveTrain {
      **/
     public void driveRobot(double driveFrontBack, double driveLeftRight, double rotation) {
 
+        // Declare variables so that their value can be calculated differently based on whether or not
+        // field centric is enabled.
+        double newDriveFrontBack;
+        double newDriveLeftRight;
+        double newRotation;
+
+        /*
+        If field centric is enabled then rotate the provided values so that the robot can drive
+        independent form it's rotation. Otherwise, just set the values to whatever was provided by
+        the user.
+         */
+        if (fieldCentric) {
+            // Get the robot's rotation so the below calculations will be accurate.
+            double robotRotation = coordinateSystem.getPosition().rotation;
+
+            // Rotate the values so that the robot can drive in a field centric way.
+            newDriveLeftRight = driveLeftRight * Math.cos(-robotRotation) - driveFrontBack * Math.sin(-robotRotation);
+            newDriveFrontBack = driveLeftRight * Math.sin(-robotRotation) + driveFrontBack * Math.cos(-robotRotation);
+        } else {
+            newDriveLeftRight = driveLeftRight;
+            newDriveFrontBack = driveFrontBack;
+        }
+        newRotation = rotation;
+
         // Get the robots speed multiplier
         double speedMultiplier = current_drive_mode.speedMultiplier();
 
-        // Recalculate Values
-        double newDriveFrontBack = driveFrontBack * speedMultiplier;
-        double newDriveLeftRight = driveLeftRight * STRAFE_OFFSET * speedMultiplier; // Multiple by STRAIF_OFFSET to counteract imperfect straifing.
-        double newRotation = rotation * speedMultiplier;
+        // Recalculate the values to adjust for the speed multiplier and strafe offset.
+        newDriveFrontBack *= speedMultiplier;
+        newDriveLeftRight *= STRAFE_OFFSET * speedMultiplier;
+        newRotation *= speedMultiplier;
 
         // Calculate the value that all o the values need to be divided by in order for the robot's
         // wheels to maintain a consistent ratio. This is required because motor power is capped at 1.
@@ -123,71 +163,82 @@ public class DriveTrain {
     }
 
     /**
-     * Drives the robot to the specified position and rotation in the coordinate system.
-     *
-     * @param targetPosition The position on the field you want the robot to drive to.
-     */
-    public void driveRobotToPosition(RobotPosition targetPosition) {
-
-        // Convert the target position's rotation to radians.
-        targetPosition.rotation = Math.toRadians(targetPosition.rotation);
-
-        // Get distance to the target from the robot's coordinate system and rotate it relative
-        // to the robot's rotation.
-        RobotPosition targetPositionDistance = coordinateSystem.getDistanceToPosition(targetPosition);
-
-        // Convert the distance to the target position from inches and radians to encoder counts.
-        targetPositionDistance.multiplyBy(CoordinateSystem.TICKS_PER_INCH);
-
-        // Move robot to the rotated position.
-        driveToRelativePosition(targetPositionDistance);
-    }
-
-    /**
      * Moves the robot a specified amount of inches in any direction relative to the robot.
      *
      * @param targetPosition The position you want the robot to move to.
      */
-    public void driveToRelativePosition(RobotPosition targetPosition) {
+    public void driveRobotToPosition(RobotPosition targetPosition) {
 
-        // Calculate encoder changes for each individual motor
-        int rightFrontTarget = rightFrontDrive.getCurrentPosition() + (int) (targetPosition.y - targetPosition.x);
-        int rightBackTarget = rightBackDrive.getCurrentPosition() + (int) (targetPosition.y + targetPosition.x);
-        int leftFrontTarget = leftFrontDrive.getCurrentPosition() + (int) (targetPosition.y + targetPosition.x);
-        int leftBackTarget = leftBackDrive.getCurrentPosition() + (int) (targetPosition.y - targetPosition.x);
+        // Input controller //
+        InputController inputController = new InputController(0.2, 1);
 
-        // Set target positions and motor run modes
-        rightFrontDrive.setTargetPosition(rightFrontTarget);
-        rightBackDrive.setTargetPosition(rightBackTarget);
-        leftFrontDrive.setTargetPosition(leftFrontTarget);
-        leftBackDrive.setTargetPosition(leftBackTarget);
+        // Create a PID controller so that we can smoothly rotate the robot and maintain a constant rotation //
+        TurnToPIDController rotationController = new TurnToPIDController(0.02, 0, 0.002);
 
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Create PID Controllers to smoothly move the robot to the provided target position.
+        PIDController xController = new PIDController(pidController);
+        PIDController yController = new PIDController(pidController);
 
-        // Calculate Average target position
-        double averageTargetPosition = (double)(rightFrontTarget + rightBackTarget + leftFrontTarget + leftBackTarget) / 4;
-        double averageEncoderPosition = 0;
+        // Keep track of how close the robot is to the target position
+        // (We use 9999 as a placeholder because we don't want to prematurely stop the loop)
+        double rotationalError = 9999;
+        double xDistance = 9999;
+        double yDistance = 9999;
 
-        // Set starting motor power
-        double targetPower = .8;
-        rightFrontDrive.setPower(targetPower);
-        rightBackDrive.setPower(targetPower);
-        leftFrontDrive.setPower(targetPower);
-        leftBackDrive.setPower(targetPower);
+        // Keep moving until each motor is within 6 encoder ticks of their desired position.
+        while (myOpMode.opModeIsActive() && ((xDistance > .1 || yDistance > .1) ||
+                Math.abs(rotationalError) > Math.toRadians(1))) {
 
-        // (averageTargetPosition - averageEncoderPosition) / CoordinateSystem.TICKS_PER_INCH > 0.05 ||
+            // Update how far we are from the target position
+            FieldPosition distanceVector = coordinateSystem.getDistanceToPosition(targetPosition);
+            xDistance = Math.abs(distanceVector.x);
+            yDistance = Math.abs(distanceVector.y);
 
-        // Constantly update the user as to where the robot is on the field.
-        while (myOpMode.opModeIsActive() && (averageTargetPosition - averageEncoderPosition) / CoordinateSystem.TICKS_PER_INCH > 0.1 || rightFrontDrive.isBusy() &&
-                rightBackDrive.isBusy() && leftFrontDrive.isBusy() && leftBackDrive.isBusy()) {
+            // Update the rotational difference
+            rotationalError = coordinateSystem.getDistanceToRotation(targetPosition.rotation);
 
-            // Calculate Average Encoder Position
-            averageEncoderPosition = (double)(
-                    rightFrontDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition() +
-                    leftFrontDrive.getCurrentPosition() + leftBackDrive.getCurrentPosition()) / 4;
+            // Calculate what % of the maximum autonomous speed the robot should be moving.
+            // (Increases over time)
+            double smoothingFactor = inputController.smoothInput(MAX_AUTONOMOUS_SPEED);
+
+            // Get the robot's position so that we are able to have accurate data for the below calculations.
+            RobotPosition robotPosition = coordinateSystem.getPosition();
+
+            // Calculate the directional powers required to drive in the desired direction.
+            double xPower = xController.update(targetPosition.x, robotPosition.x);
+            double yPower = yController.update(targetPosition.y, robotPosition.y);
+
+            // Rotate the values to account for the robot's rotation.
+            double rotatedXPower = xPower * Math.cos(-robotPosition.rotation) - yPower * Math.sin(-robotPosition.rotation);
+            double rotatedYPower = xPower * Math.sin(-robotPosition.rotation) + yPower * Math.cos(-robotPosition.rotation);
+
+            // Calculate the power required to make the robot rotate in a specified direction.
+            double rotationalPower = -rotationController.update(rotationalError);
+
+            // Multiply all of the power values by the smoothingFactor. This allows us to gradually
+            // accelerate up to max speed.
+            rotatedXPower *= smoothingFactor * STRAFE_OFFSET;
+            rotatedYPower *= smoothingFactor;
+            rotationalPower *= smoothingFactor;
+
+            // Calculate the value that all powers have to be divided by in order to ensure that they
+            // maintain a consistent ratio and can move in the desired direction.
+            double denominator = Math.max(Math.abs(rotatedXPower) + Math.abs(rotatedYPower) + Math.abs(rotationalPower), 1);
+
+            // Calculate the power for each individual motor.
+            double rightFrontPower = (rotatedYPower - rotatedXPower - rotationalPower) / denominator;
+            double rightBackPower = (rotatedYPower + rotatedXPower - rotationalPower) / denominator;
+            double leftFrontPower = (rotatedYPower + rotatedXPower + rotationalPower) / denominator;
+            double leftBackPower = (rotatedYPower - rotatedXPower + rotationalPower) / denominator;
+
+            // Use the pre-existing function to apply the power to the wheels.
+            setDrivePower(rightFrontPower, rightBackPower, leftFrontPower, leftBackPower);
+
+            // Display useful data to user:
+            myOpMode.telemetry.addData("X Error: ", xDistance);
+            myOpMode.telemetry.addData("Y Error: ", yDistance);
+            myOpMode.telemetry.addData("X Target: ", targetPosition.x);
+            myOpMode.telemetry.addData("X Target: ", targetPosition.y);
 
             // Update robot's position
             coordinateSystem.updateRobotPosition(
@@ -198,20 +249,8 @@ public class DriveTrain {
             displayRobotPosition();
         }
 
-        // Stop the robot from moving //
         setDrivePower(0, 0, 0, 0);
 
-        // Set motor run modes back to RUN_USING_ENCODER
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        // Rotate the robot to the desired position if the robot is not already within 1 degree of
-        // the target's rotation.
-        if (Math.abs(coordinateSystem.getDistanceToRotation(targetPosition.rotation)) < Math.toRadians(1)) {
-            rotateTo(targetPosition.rotation);
-        }
     }
 
     /**
@@ -262,25 +301,39 @@ public class DriveTrain {
     /**
      * Displays what position the robot is currently located at on the field on the Telemetry.
      */
-    private void displayRobotPosition() {
+    public void displayRobotPosition() {
 
         // Get the robot's position
         RobotPosition robotPosition = coordinateSystem.getPosition();
 
         // Convert the robot's rotation to degrees to make it easier for a human to understand.
         double robotRotationDegrees = Math.toDegrees(robotPosition.rotation);
-
+        /*
         // Tell the user their current position.
+        myOpMode.telemetry.addLine("---Settings---");
+        myOpMode.telemetry.addData("DriveMode: ", current_drive_mode);
+        myOpMode.telemetry.addData("Speed Multiplier", current_drive_mode.speedMultiplier());
+        myOpMode.telemetry.addData("FieldCentricEnabled", fieldCentric);
+        */
+
+
+        myOpMode.telemetry.addLine("---PID Coefficients---");
+        myOpMode.telemetry.addData("Kp ", pidController.getProportionalTerm());
+        myOpMode.telemetry.addData("Ki ", pidController.getIntegralTerm());
+        myOpMode.telemetry.addData("kd ", pidController.getDerivativeTerm());
+
+        myOpMode.telemetry.addLine("---Motor Powers---");
+        myOpMode.telemetry.addData("RF Power:", rightFrontDrive.getPower());
+        myOpMode.telemetry.addData("RB Power:", rightBackDrive.getPower());
+        myOpMode.telemetry.addData("LF Power:", leftFrontDrive.getPower());
+        myOpMode.telemetry.addData("LB Power:", leftBackDrive.getPower());
+
         myOpMode.telemetry.addLine("---Robot Position---");
         myOpMode.telemetry.addData("Robot X", robotPosition.x);
         myOpMode.telemetry.addData("Robot Y", robotPosition.y);
         myOpMode.telemetry.addData("Robot Rotation (Radians)", robotPosition.rotation);
         myOpMode.telemetry.addData("Robot Rotation (Degrees)", robotRotationDegrees);
-        myOpMode.telemetry.addLine("---Motor Powers---");
-        myOpMode.telemetry.addData("Front Right Motor Power: ", rightFrontDrive.getPower());
-        myOpMode.telemetry.addData("Back Right Motor Power: ", rightBackDrive.getPower());
-        myOpMode.telemetry.addData("Front Left Motor Power: ", leftFrontDrive.getPower());
-        myOpMode.telemetry.addData("Back Left Motor Power: ", leftBackDrive.getPower());
+        myOpMode.telemetry.addData("Rotational Offset ", coordinateSystem.rotationalOffset);
 
         myOpMode.telemetry.update();
     }
@@ -292,5 +345,19 @@ public class DriveTrain {
      */
     public void setDriveMode(DriveMode drive_mode) {
         current_drive_mode = drive_mode;
+    }
+
+    /**
+     * Toggles field centric drive on and off.
+     */
+    public void toggleFieldCentric() {
+        fieldCentric = !fieldCentric;
+    }
+
+    /**
+     * Resets the IMU to it's original position. This helps counteract IMU drift.
+     */
+    public void resetIMU() {
+        coordinateSystem.resetIMU();
     }
 }

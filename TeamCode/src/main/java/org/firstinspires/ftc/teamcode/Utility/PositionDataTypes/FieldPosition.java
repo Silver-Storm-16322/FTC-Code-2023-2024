@@ -10,6 +10,16 @@ public class FieldPosition {
     }
 
     /**
+     * Create a FieldPosition with the same values as the provided field position.
+     *
+     * @param position The position who's values you want to clone.
+     */
+    public FieldPosition(FieldPosition position) {
+        this.x = position.x;
+        this.y = position.y;
+    }
+
+    /**
      * This method combines the values of another Vector2 with this vector.
      * Adds the X and Y values from the specified Vector2 to this vector.
      *
@@ -89,5 +99,37 @@ public class FieldPosition {
         // Update the vector's coordinates after rotation.
         this.x = rotatedX;
         this.y = rotatedY;
+    }
+
+    /**
+     * This method calculates the magnitude of the vector.
+     *
+     * @return Returns the magnitude of the vector.
+     */
+    public double getMagnitude() {
+
+        // Calculate what each of the
+        double xSquared = Math.pow(this.x, 2);
+        double ySquared = Math.pow(this.y, 2);
+
+        return Math.sqrt(xSquared + ySquared);
+    }
+
+    /**
+     * Calculates the unit vector of this vector.
+     *
+     * @return Returns the unit vector of this FieldPosition.
+     */
+    public FieldPosition getUnitVector() {
+
+        // Get this vector's magnitude
+        double magnitude = this.getMagnitude();
+
+        // Create a new FieldPosition with the same X and Y values.
+        FieldPosition unitVector = new FieldPosition(this.x, this.y);
+        unitVector.divideBy(magnitude);
+
+        // Return the unit vector.
+        return unitVector;
     }
 }

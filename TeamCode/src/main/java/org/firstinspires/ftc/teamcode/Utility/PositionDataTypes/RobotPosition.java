@@ -9,6 +9,16 @@ public class RobotPosition extends FieldPosition {
     }
 
     /**
+     * This constructor clones the values of a vector over to this vector.
+     *
+     * @param otherVector The vector who's values you want to clone.
+     */
+    public RobotPosition(RobotPosition otherVector) {
+        super(otherVector.x, otherVector.y);
+        this.rotation = otherVector.rotation;
+    }
+
+    /**
      * This method combines the values of another Vector3 with this Vector3 instance.
      * Adds the X, Y, and Rotation values from the specified Vector 3 to this Vector3.
      *

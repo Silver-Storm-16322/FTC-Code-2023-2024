@@ -27,6 +27,9 @@ public class SetupHardware extends Commands {
         // Set the robot's position to the starting position obtained from AutoParams.
         robot.driveTrain.coordinateSystem.setRobotPosition(autoParams.getStartingPosition(), rotationalOffset);
 
+        // Close the manipulator so that we can score the starting pixel.
+        robot.manipulator.close();
+
         // Indicate that the command has finished running.
         finished = true;
     }

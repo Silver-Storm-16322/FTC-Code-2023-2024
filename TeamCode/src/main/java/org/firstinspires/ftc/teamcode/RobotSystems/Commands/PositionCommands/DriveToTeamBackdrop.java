@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.RobotSystems.Commands.PositionCommands;
 
 import org.firstinspires.ftc.teamcode.RobotSystems.Commands.Commands;
 import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.RobotSystems.Subsystems.SubsystemEnums.LinearSlideStage;
 import org.firstinspires.ftc.teamcode.Utility.PositionDataTypes.FieldPosition;
 import org.firstinspires.ftc.teamcode.Utility.PositionDataTypes.RobotPosition;
 
@@ -55,6 +56,9 @@ public class DriveToTeamBackdrop extends Commands {
             navigateToPosition(driveTrain, robotPosition);
         }
 
+        // Raise slides //
+        robot.linearSlide.setStage(LinearSlideStage.LOW_STAGE);
+
         // Calculate the direction the robot has to be pointing in in order to be facing the backdrop.
         double desiredRotation = Math.toRadians(-90);
 
@@ -91,7 +95,7 @@ public class DriveToTeamBackdrop extends Commands {
         that we can avoid running into a pole and ruining the entire auto.
          */
         if (robotPosition.x >= -24 && !(Math.abs(robotPosition.y) > 24 && Math.abs(robotPosition.y) < 48) || path == 2) {
-            driveTrain.driveRobotToPosition(new RobotPosition(24, robotPosition.y, Math.toRadians(-90)));
+            driveTrain.driveRobotToPosition(new RobotPosition(35, robotPosition.y, Math.toRadians(-90)));
             return;
         } else if (Math.abs(robotPosition.y) > 24 && Math.abs(robotPosition.y) < 48) {
             driveTrain.driveRobotToPosition(new RobotPosition(-48, robotPosition.y, Math.toRadians(-90)));
@@ -122,16 +126,16 @@ public class DriveToTeamBackdrop extends Commands {
         // the offset by the directional offset and have it work across both alliances.
         switch (path) {
             case 1:
-                positionOffset = new FieldPosition(24, -12);
+                positionOffset = new FieldPosition(35, -12);
                 break;
             case 2:
-                positionOffset = new FieldPosition(24, -36);
+                positionOffset = new FieldPosition(35, -36);
                 break;
             case 3:
-                positionOffset = new FieldPosition(24, -60);
+                positionOffset = new FieldPosition(35, -60);
                 break;
             default:
-                positionOffset = new FieldPosition(24, 0);
+                positionOffset = new FieldPosition(35, 0);
                 break;
         }
         positionOffset.multiplyBy(autoParams.getDirectionalModifier());

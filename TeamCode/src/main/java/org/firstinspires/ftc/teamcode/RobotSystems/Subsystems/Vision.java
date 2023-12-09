@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.RobotSystems.Subsystems;
 
 import android.util.Size;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -9,39 +10,68 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.WhiteBalanceControl;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Vision {
 
-    private Telemetry robotTelemetry = null;
+    private LinearOpMode myOpMode = null;
     private WebcamName camera = null;
     private AprilTagProcessor aprilTagProcessor = null;
     private TfodProcessor tensorFlowProcessor = null;
     private VisionPortal visionPortal = null;
     public static final double CAMERA_OFFSET = -5.9375;
+
+    // Tensor Flow Settings //
+    private static final String MODE_NAME = "TeamPropDetection.tflite";
+    private static final String[] LABELS = {
+            "BlueTeamProp",
+            "RedTeamProp"
+    };
+    // Camera Settings
     public static final int EXPOSURE = 100;
     public static final int GAIN = 100;
     public static final int TEMPERATURE = 10;
 
-    public void init(HardwareMap hardwareMap, Telemetry telemetry) {
+    public Vision(LinearOpMode opMode) {this.myOpMode = opMode; }
+    public void init() {
 
         // Initialize Hardware Values
-        camera = hardwareMap.get(WebcamName.class, "camera");
+        camera = myOpMode.hardwareMap.get(WebcamName.class, "camera");
 
         // Create TensorFlow processor
-        tensorFlowProcessor = TfodProcessor.easyCreateWithDefaults();
+        tensorFlowProcessor = new TfodProcessor.Builder()
+                .setModelAssetName(MODE_NAME)
+                .setModelLabels(LABELS)
+                .build();
+
 
         // Create AprilTag processor
         aprilTagProcessor = AprilTagProcessor.easyCreateWithDefaults();
 
         // Set up the vision portal.
-        visionPortal = VisionPortal.easyCreateWithDefaults(camera, tensorFlowProcessor, aprilTagProcessor);
+        visionPortal = new VisionPortal.Builder()
+                .setCamera(camera)
+                .setStreamFormat(VisionPortal.StreamFormat.YUY2)
+                .enableLiveView(true)
+                .addProcessors(tensorFlowProcessor, aprilTagProcessor)
+                .build();
 
+        // Wait until the cameras-tarts streaming. This is done because if we adjust the camera's
+        // values before it starts streaming, then the opMode will crash.
+        while (visionPortal.getCameraState() != VisionPortal.CameraState.STREAMING) {
+            myOpMode.idle();
+        }
+
+        /*
         // Setup gain and exposure.
         ExposureControl exposureControl = visionPortal.getCameraControl(ExposureControl.class);
         GainControl gainControl = visionPortal.getCameraControl(GainControl.class);
@@ -71,9 +101,82 @@ public class Vision {
 
         // Set temperature.
         wbControl.setWhiteBalanceTemperature(TEMPERATURE);
-
+         */
         // Tell user that the april tags were successfully initialized
-        robotTelemetry.addData("->","AprilTagDetection successfully initialized.");
+        myOpMode.telemetry.addData("->","Vision successfully initialized.");
+    }
+
+    /**
+     * This method checks if the camera can see any team props. If it can, then we determine which
+     * object the AI has the most confidence in being the team prop. Otherwise, return null.
+     *
+     * @param allianceMultiplier The alliance multiplier specified by the autoParams object.
+     * @return Returns the alliance team prop that the AI has the most confidence in.
+     */
+    public Recognition getDetectedTeamProps(double allianceMultiplier) {
+
+        // Create a value to store the team prop that the AI has the most confidence in.
+        Recognition detectedTeamProp = null;
+        double highestDetectedObjectConfidence = 0;
+
+        // Get a list containing all of the objects that the camera is detecting.
+        List <Recognition> detectedTeamProps = tensorFlowProcessor.getRecognitions();
+
+        /*
+        Based on the provided multiplier value, determine what team prop to look for.
+        1 is RedTeamProp
+        -1 is BlueTeamProp
+         */
+        String alliancePropName = (allianceMultiplier == 1) ? "RedTeamProp" : "BlueTeamProp";
+
+        // Loop through all of the detected objects and determine which one the AI thinks is most likely
+        // to be the team prop.
+        for (Recognition detectedObject : detectedTeamProps) {
+
+            // Check if detectedObject has been labeled as the alliance specific team prop.
+            // if not, then skip to the next object.
+            if (!detectedObject.getLabel().equals(alliancePropName)) {
+                continue;
+            }
+
+            /*
+            Check if the AI has more confidence that this object is our team prop than the previously
+            detected object with the most confidence. If it is, then set it as the detected object
+            and set highestDetectedObjectConfidence to the detected object's confidence.
+             */
+            if (detectedObject.getConfidence() > highestDetectedObjectConfidence) {
+                detectedTeamProp = detectedObject;
+                highestDetectedObjectConfidence = detectedObject.getConfidence();
+            }
+        }
+
+        // Return the team prop that the AI has the most confidence in.
+        return detectedTeamProp;
+    }
+
+    public HashMap<Integer, AprilTagDetection> getAprilTagDetections(double allianceMultiplier) {
+
+        // Get all detected AprilTags
+        List <AprilTagDetection> detectedAprilTags = aprilTagProcessor.getDetections();
+
+        // Create an empty list to store all of the AprilTags that might be useful to the alliance.
+        HashMap<Integer, AprilTagDetection> detectedTeamAprilTags = new HashMap<>();
+
+        // Loop through all of the AprilTags that the robot can see and add all of the tags relevant to
+        // the alliance to a list.
+        for (AprilTagDetection tagDetection : detectedAprilTags) {
+
+            // Remove the april tag if it isn't relevant to the robot's alliance.
+            // Otherwise, add it to a new list containing all of the april tags relevant to the robot.
+            if (tagDetection.id < 4 && allianceMultiplier == -1 * -1) {
+                detectedTeamAprilTags.put(tagDetection.id, tagDetection);
+            } else if (tagDetection.id > 3 && allianceMultiplier == 1){
+                detectedTeamAprilTags.put(tagDetection.id, tagDetection);
+            }
+        }
+
+        // Return all of the team relevant AprilTags.
+        return detectedTeamAprilTags;
     }
 }
 

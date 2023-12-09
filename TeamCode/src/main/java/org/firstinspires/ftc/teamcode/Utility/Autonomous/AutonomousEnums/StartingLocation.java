@@ -3,17 +3,17 @@ package org.firstinspires.ftc.teamcode.Utility.Autonomous.AutonomousEnums;
 import org.firstinspires.ftc.teamcode.Utility.PositionDataTypes.RobotPosition;
 
 public enum StartingLocation {
-    RED_BACKDROP        (new RobotPosition(8, -64.2, Math.toRadians(0)),
-                         new RobotPosition(51.6 , -36, Math.toRadians(-90)),
+    RED_BACKDROP        (new RobotPosition(11.5, 0, Math.toRadians(0)),
+                         new RobotPosition(51.6 , 27.6, Math.toRadians(-90)),
                          1),
-    BLUE_BACKDROP       (new RobotPosition(8, 64.2, Math.toRadians(180)),
-                         new RobotPosition(51.6, 36, Math.toRadians(-90)),
+    BLUE_BACKDROP       (new RobotPosition(-11.5, 0, Math.toRadians(0)),
+                         new RobotPosition(-51.6, 27.6, Math.toRadians(90)),
                         -1),
-    RED_WING            (new RobotPosition(-39.8, -64.2, Math.toRadians(0)),
-                         new RobotPosition(51.6 , -36, Math.toRadians(-90)),
+    RED_WING            (new RobotPosition(-35.6, 0, Math.toRadians(0)),
+                         new RobotPosition(51.6 , 27.6, Math.toRadians(-90)),
                          1),
-    BLUE_WING           (new RobotPosition(-39.8, 64.2, Math.toRadians(180)),
-                         new RobotPosition(51.6, 36, Math.toRadians(-90)),
+    BLUE_WING           (new RobotPosition(35.6, 0, Math.toRadians(0)),
+                         new RobotPosition(-51.6, 27.6, Math.toRadians(90)),
                          -1);
 
     private final RobotPosition startingPosition;

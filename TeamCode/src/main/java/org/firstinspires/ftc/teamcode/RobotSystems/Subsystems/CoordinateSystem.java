@@ -15,7 +15,7 @@ public class CoordinateSystem {
     private double lastRightBackPosition = 0;
     private double lastLeftFrontPosition = 0;
     private double lastLeftBackPosition = 0;
-    private double rotationalOffset = 0;
+    public double rotationalOffset = 0;
     private RobotPosition robotPosition = new RobotPosition(0, 0, 0);
     public static final double TICKS_PER_INCH = 57.953;
 
@@ -30,15 +30,15 @@ public class CoordinateSystem {
         // Create the IMU parameters that tell the IMU what direction its facing and allow us to use the
         // robot's rotation for various calculations.
         IMU.Parameters imuSettings = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.RIGHT));
+                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP));
 
         // Initialize the IMU
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(imuSettings);
 
         // Reset the imu's angle.
-        imu.resetYaw();
+        resetIMU();
     }
 
     /**
@@ -88,24 +88,22 @@ public class CoordinateSystem {
     }
 
     /**
-     * Calculates the distance from the robot's current position to the provided target location.
+     * Calculates the distance the robot is away from a position.
      *
-     * @param targetPosition The position you want to move the robot to.
-     * @return Returns a Vector3 containing the distance to the
+     * @param targetPosition The position you want to find the distance to.
+     * @return Returns the distance the robot is away from the provided target position.
      */
-    public RobotPosition getDistanceToPosition(RobotPosition targetPosition) {
+    public FieldPosition getDistanceToPosition(RobotPosition targetPosition) {
 
-        // Update the robot's rotation so that the below calculation involving rotations are accurate.
-        updateRotation();
+        // Create a new FieldPosition using the provided target position.
+        // (We do this so that the TargetPosition's values don't get changed when we do the blow calculations.
+        FieldPosition targetFieldPosition = new FieldPosition(targetPosition);
 
         // Calculate how far away the robot is from the target position.
-        targetPosition.subtractValues(new FieldPosition(robotPosition.x, robotPosition.y));
+        targetFieldPosition.subtractValues(robotPosition);
 
-        // Rotate the Target Position to account for the robot's rotation.
-        targetPosition.rotateVector(robotPosition.rotation);
-
-        // Return values to user.
-        return targetPosition;
+        // Return the distance (magnitude) to the target position.
+        return targetFieldPosition;
     }
 
     /**
@@ -142,9 +140,15 @@ public class CoordinateSystem {
      * Updates the robot's rotation.
      */
     public void updateRotation() {
-        robotPosition.rotation = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS) + rotationalOffset;
+        robotPosition.rotation = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
     }
 
+    /**
+     * Resets the IMU's rotation to help counteract IMU drift.
+     */
+    public void resetIMU() {
+        imu.resetYaw();
+    }
     /**
      * Returns the robot's position (In inches) and rotation (in radians)
      *
@@ -166,7 +170,8 @@ public class CoordinateSystem {
      *                         alliance.
      */
     public void setRobotPosition(RobotPosition position, double rotationalOffset) {
-        this.robotPosition = position;
+        this.robotPosition.x = position.x;
+        this.robotPosition.y = position.y;
         this.rotationalOffset = rotationalOffset;
     }
 }

@@ -26,6 +26,12 @@ public class Timer {
     public void start() {
         timer.startTime();
     }
+    /**
+     * Resets the timer.
+     */
+    public void reset() {
+        timer.reset();
+    }
 
     /**
      * Checks if the wait duration has elapsed.

@@ -16,7 +16,7 @@ public class RobotHardware {
     public LinearSlide linearSlide = null;
     public Manipulator manipulator = null;
     public PaperAirplaneLauncher paperAirplaneLauncher = null;
-    public Vision aprilTagDetection = null;
+    public Vision vision = null;
 
     public RobotHardware (LinearOpMode opMode) { this.myOpMode = opMode; }
 
@@ -26,8 +26,12 @@ public class RobotHardware {
         driveTrain = new DriveTrain(myOpMode);
         driveTrain.init();
 
+        /*
+        NOTE: Linear slides are broken, so we can't use them.
+
         linearSlide = new LinearSlide();
         linearSlide.init(myOpMode.hardwareMap, myOpMode.telemetry);
+        */
 
         manipulator = new Manipulator();
         manipulator.init(myOpMode.hardwareMap, myOpMode.telemetry);
@@ -35,8 +39,8 @@ public class RobotHardware {
         paperAirplaneLauncher = new PaperAirplaneLauncher(myOpMode);
         paperAirplaneLauncher.init();
 
-        aprilTagDetection = new Vision();
-        aprilTagDetection.init(myOpMode.hardwareMap, myOpMode.telemetry);
+        vision = new Vision(myOpMode);
+        vision.init();
 
         // Tell the user that the hardware has been initialized.
         myOpMode.telemetry.addData("->", "Hardware Initialized");

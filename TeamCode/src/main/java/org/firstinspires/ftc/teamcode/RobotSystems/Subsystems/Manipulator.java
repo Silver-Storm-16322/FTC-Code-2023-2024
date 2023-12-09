@@ -8,10 +8,10 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Manipulator {
 
     private Telemetry robotTelemetry = null;
-    private Servo rightGripperServo = null;
-    private Servo leftGripperServo = null;
-    public static final double CLOSED_POSITION = 0.5;
-    public static final double OPEN_POSITION = 0.1;
+    public Servo rightGripperServo = null;
+    public Servo leftGripperServo = null;
+    public static final double CLOSED_POSITION = 0;
+    public static final double OPEN_POSITION = .625;
 
     // Get the opMode so that we can get hardware.
     public void init(HardwareMap hardwareMap, Telemetry telemetry) {
@@ -34,13 +34,17 @@ public class Manipulator {
 
     // Open up the manipulator so that we can grab a hexagon.
     public void open() {
-        rightGripperServo.setPosition(OPEN_POSITION);
+        rightGripperServo.setPosition(OPEN_POSITION + .05);
         leftGripperServo.setPosition(OPEN_POSITION);
     }
 
     // Close the manipulator so that we can move/manipulate a hexagon.
     public void close() {
-        rightGripperServo.setPosition(CLOSED_POSITION);
+        rightGripperServo.setPosition(CLOSED_POSITION + .1);
         leftGripperServo.setPosition(CLOSED_POSITION);
+    }
+
+    public boolean isPixelGrabbed() {
+        return false;
     }
 }

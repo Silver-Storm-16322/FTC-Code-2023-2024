@@ -5,8 +5,8 @@ import org.firstinspires.ftc.teamcode.Utility.Autonomous.AutonomousEnums.Startin
 import org.firstinspires.ftc.teamcode.Utility.PositionDataTypes.RobotPosition;
 
 public class AutoParams {
-    private final StartingLocation startingLocation;
-    private final PixelStack targetPixelStack;
+    private StartingLocation startingLocation;
+    private PixelStack targetPixelStack;
 
     /**
      * Initializes AutoParams with specified values.
@@ -30,6 +30,42 @@ public class AutoParams {
         this.targetPixelStack = targetPixelStack;
     }
 
+    /**
+     * Sets this AutoParam's starting location to the provided value.
+     *
+     * @param startingLocation the starting location you want to change this AutoParam's starting location
+     *                         to.
+     */
+    public void setStartingLocation(StartingLocation startingLocation) {
+        this.startingLocation = startingLocation;
+    }
+
+    /**
+     * Sets this AutoParam's target pixel stack.
+     *
+     * @param targetPixelStack the pixel stack you want the robot to score from during auto.
+     */
+    public void setTargetPixelStack(PixelStack targetPixelStack) {
+        this.targetPixelStack = targetPixelStack;
+    }
+
+    /**
+     * Returns this AutoParam's starting location.
+     *
+     * @return Returns this AutoParam's starting location.
+     */
+    public StartingLocation getStartingLocation() {
+        return startingLocation;
+    }
+
+    /**
+     * Returns this AutoParam's target pixel stack.
+     *
+     * @return Returns this AutoParam's target pixel stack.
+     */
+    public PixelStack getTargetPixelStack() {
+        return targetPixelStack;
+    }
     /**
      * Gets the starting position of the robot.
      *
