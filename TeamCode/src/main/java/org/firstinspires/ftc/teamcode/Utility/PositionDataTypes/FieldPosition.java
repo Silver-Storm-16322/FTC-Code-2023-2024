@@ -20,10 +20,10 @@ public class FieldPosition {
     }
 
     /**
-     * This method combines the values of another Vector2 with this vector.
-     * Adds the X and Y values from the specified Vector2 to this vector.
+     * This method combines the values of another FieldPosition with this vector.
+     * Adds the X and Y values from the specified FieldPosition to this vector.
      *
-     * @param otherVector The Vector2 instance whose values will be added to this vector.
+     * @param otherVector The FieldPosition instance whose values will be added to this vector.
      */
     public void addValues(FieldPosition otherVector) {
         this.x += otherVector.x;
@@ -31,10 +31,10 @@ public class FieldPosition {
     }
 
     /**
-     * This method subtracts the values of a Vector2 from this vector.
-     * Subtracts the X and Y values from the specified Vector2 from this vector.
+     * This method subtracts the values of a FieldPosition from this vector.
+     * Subtracts the X and Y values from the specified FieldPosition from this vector.
      *
-     * @param otherVector The Vector2 instance who's values will be subtracted from this vector.
+     * @param otherVector The FieldPosition instance who's values will be subtracted from this vector.
      */
     public void subtractValues(FieldPosition otherVector) {
         this.x -= otherVector.x;
@@ -42,11 +42,11 @@ public class FieldPosition {
     }
 
     /**
-     * This method divides this vector's values by those from the specified Vector2.
-     * Divides this vector's X and Y values by those from the specified Vector2.
+     * This method divides this vector's values by those from the specified FieldPosition.
+     * Divides this vector's X and Y values by those from the specified FieldPosition.
      *
-     * @param otherVector The Vector2 instance containing the values that this vector's values will
-     *                    be divided by.
+     * @param otherVector The FieldPosition instance containing the values that this vector's values
+     *                    will be divided by.
      */
     public void divideValues(FieldPosition otherVector) {
         this.x /= otherVector.x;
@@ -64,11 +64,11 @@ public class FieldPosition {
     }
 
     /**
-     * This method multiplies this vector's values by those from the specified Vector2.
-     * Multiplies this vector's X and Y values by those from the specified Vector2.
+     * This method multiplies this vector's values by those from the specified FieldPosition.
+     * Multiplies this vector's X and Y values by those from the specified FieldPosition.
      *
-     * @param otherVector The Vector2 instance containing the values that this vector's values will
-     *                    be multiplied by.
+     * @param otherVector The FieldPosition instance containing the values that this vector's values
+     *                    will be multiplied by.
      */
     public void multiplyValues(FieldPosition otherVector) {
         this.x *= otherVector.x;

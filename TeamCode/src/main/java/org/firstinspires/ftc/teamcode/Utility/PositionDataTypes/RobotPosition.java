@@ -19,10 +19,10 @@ public class RobotPosition extends FieldPosition {
     }
 
     /**
-     * This method combines the values of another Vector3 with this Vector3 instance.
-     * Adds the X, Y, and Rotation values from the specified Vector 3 to this Vector3.
+     * This method combines the values of another RobotPosition with this RobotPosition instance.
+     * Adds the X, Y, and Rotation values from the specified Vector 3 to this RobotPosition.
      *
-     * @param otherVector The Vector3 instance whose values will be added to this vector.
+     * @param otherVector The RobotPosition instance whose values will be added to this vector.
      */
     public void addValues(RobotPosition otherVector) {
         this.x += otherVector.x;
@@ -31,10 +31,10 @@ public class RobotPosition extends FieldPosition {
     }
 
     /**
-     * This method subtracts the values of a Vector3 from this vector.
-     * Subtracts the X, Y, and Rotation values from the specified Vector3 from this vector.
+     * This method subtracts the values of a RobotPosition from this vector.
+     * Subtracts the X, Y, and Rotation values from the specified RobotPosition from this vector.
      *
-     * @param otherVector The Vector3 instance who's values will be subtracted from this vector.
+     * @param otherVector The RobotPosition instance who's values will be subtracted from this vector.
      */
     public void subtractValues(RobotPosition otherVector) {
         this.x -= otherVector.x;
@@ -43,10 +43,10 @@ public class RobotPosition extends FieldPosition {
     }
 
     /**
-     * This method divides this vector's values by those from the specified Vector3.
-     * Divides this vector's X, Y, and Rotation values by those from the specified Vector3.
+     * This method divides this vector's values by those from the specified RobotPosition.
+     * Divides this vector's X, Y, and Rotation values by those from the specified RobotPosition.
      *
-     * @param otherVector The Vector3 instance containing the values that this vector's values will
+     * @param otherVector The RobotPosition instance containing the values that this vector's values will
      *                    be divided by.
      */
     public void divideValues(RobotPosition otherVector) {
@@ -56,10 +56,10 @@ public class RobotPosition extends FieldPosition {
     }
 
     /**
-     * This method multiplies this vector's values by those from the specified Vector3.
-     * Multiplies this vector's X, Y, and Rotation values by those from the specified Vector3.
+     * This method multiplies this vector's values by those from the specified RobotPosition.
+     * Multiplies this vector's X, Y, and Rotation values by those from the specified RobotPosition.
      *
-     * @param otherVector The Vector3 instance containing the values that this vector's values will
+     * @param otherVector The RobotPosition instance containing the values that this vector's values will
      *                    be multiplied by.
      */
     public void multiplyValues(RobotPosition otherVector) {
