@@ -41,6 +41,8 @@ public class ScoreTeamPropPixels extends Commands {
         // Score Purple Pixel
         scorePurplePixel();
 
+        // Tell the program that the command has finished running.
+        finished = true;
     }
 
     /**
@@ -152,13 +154,10 @@ public class ScoreTeamPropPixels extends Commands {
         // the spike mark and score 20 points)
         robot.driveTrain.driveRobotToPosition(new RobotPosition(scoringPosition.x, scoringPosition.y, scoringPosition.rotation));
 
-        /*
-        Drop the pixel on the spike mark. Then, raise the linear slides so that we don't have to deal
-        with any unintentional collisions that may occur when trying to get the yellow pixel. We then
-        wait a bit for the linear slides to raise before
-         */
+        // Drop the pixel on the spike mark and then wait a second in order to guarantee that the
+        // pixel left the manipulator.
         robot.manipulator.open();
-        myOpMode.sleep(1500);
+        myOpMode.sleep(1000);
 
         // Determine where the robot has to drive to in order to be able to grab the pixel.
         RobotPosition yellowPixelGrabbingLocation = new RobotPosition(startingPosition.x +

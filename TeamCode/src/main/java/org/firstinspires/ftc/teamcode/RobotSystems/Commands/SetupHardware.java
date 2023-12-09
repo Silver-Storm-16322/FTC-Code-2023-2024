@@ -5,6 +5,7 @@ package org.firstinspires.ftc.teamcode.RobotSystems.Commands;
  * This includes lowering the Linear Slides and positioning the robot on the field.
  */
 public class SetupHardware extends Commands {
+
     // Flag to track whether or not the command has finished running.
     private boolean finished = false;
 

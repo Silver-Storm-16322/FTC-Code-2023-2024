@@ -57,6 +57,8 @@ public class MecanumDrive extends LinearOpMode {
 
             // Toggles rotational correction on / off
             if (currentGamepad.guide && !previousGamepad.guide) {
+
+                // Toggle rotational correction on/off depending on if it is currently enabled or not.
                 if (rotationalCorrection) {
                     rotationalCorrection = false;
                 } else {
@@ -81,7 +83,12 @@ public class MecanumDrive extends LinearOpMode {
 
             // Resets the IMU to help counteract IMU drift.
             if (currentGamepad.back) {
+
+                // Reset the IMU
                 robot.driveTrain.resetIMU();
+
+                // If rotational correction mode is enabled, then reset the locked angle so that the
+                // robot doesn't immediately rotate to an undesired position when the IMU is reset.
                 if (rotationalCorrection) {
                     lockedAngle = robot.driveTrain.coordinateSystem.getPosition().rotation;
                 }
@@ -104,22 +111,46 @@ public class MecanumDrive extends LinearOpMode {
                 robot.paperAirplaneLauncher.launchPaperAirplane();
             }
 
-            // Smooth out the inputs to allow for smooth deceleration and acceleration
+            /*
+            Smooth out the inputs to allow for smooth deceleration and acceleration. Additionally,
+            this allows for more precise movements when the joystick is moved less, leading to more
+            veritable controls.
+             */
             double smoothedLeftStickY = leftStickYController.smoothScaleInput(currentGamepad.left_stick_y);
             double smoothedLeftStickX = leftStickXController.smoothScaleInput(currentGamepad.left_stick_x);
             double smoothedRightStickX = rightStickXController.smoothScaleInput(currentGamepad.right_stick_x);
 
-            // Override the above calculated values if rotationCorrection is active so that we can correct
-            // for any disturbances.
+            // If the driver has rotationalCorrection enabled, then help ensure the robot always faces
+            // the desired direction.
             if (rotationalCorrection) {
 
-                // Determine how far the robot is from the direction we want to be facing. If they are
-                // within 1 degree of the desired direction, then do nothing. Otherwise apply the necessary
-                // motor power to make the robot face in the desired direction.
-                double rotationalError = robot.driveTrain.coordinateSystem.getDistanceToRotation(lockedAngle);
-                if (Math.abs(rotationalError) > Math.toRadians(1) && !(Math.abs(smoothedRightStickX) > .01)) {
-                    smoothedRightStickX = -rotationController.update(rotationalError);
-                } else if ((Math.abs(smoothedRightStickX) > .01)) {
+                /*
+                Get the absolute value of the amount we want to rotate (how far the right joystick
+                is moved left/right. This will be used in the below calculations to ensure the robot
+                faces the direction the driver want's it to be facing.
+                 */
+                double absoluteRotationalPower = Math.abs(smoothedRightStickX);
+
+                /*
+                If we are trying to turn the robot with less than 0.01 power (the driver doesn't
+                want the robot to be rotated) then make sure we are facing the desired direction.
+                Otherwise, set lockedAngle to the current rotation of the robot, since that is the
+                direction the driver wants the robot to be facing.
+                 */
+                if (!(absoluteRotationalPower > .01)) {
+
+                    // Get the distance the robot is from the direction we want it to be facing.
+                    double rotationalError = robot.driveTrain.coordinateSystem.getDistanceToRotation(lockedAngle);
+
+                    // If our robot is rotated more than 1 degree away from the direction we want to be
+                    // facing, then apply the necessary motor powers to face in the desired direction.
+                    if (Math.abs(rotationalError) > Math.toRadians(1)) {
+                        smoothedRightStickX = -rotationController.update(rotationalError);
+                    }
+                } else {
+
+                    // Update the locked angle so that the robot will be facing in the direction the
+                    // driver wants.
                     lockedAngle = robot.driveTrain.coordinateSystem.getPosition().rotation;
                 }
             }

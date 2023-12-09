@@ -13,7 +13,6 @@ public class RobotHardware {
     // Declare Hardware Variables.
     private final LinearOpMode myOpMode;
     public DriveTrain driveTrain = null;
-    public LinearSlide linearSlide = null;
     public Manipulator manipulator = null;
     public PaperAirplaneLauncher paperAirplaneLauncher = null;
     public Vision vision = null;
@@ -25,13 +24,6 @@ public class RobotHardware {
         // Initialize robot subsystems
         driveTrain = new DriveTrain(myOpMode);
         driveTrain.init();
-
-        /*
-        NOTE: Linear slides are broken, so we can't use them.
-
-        linearSlide = new LinearSlide();
-        linearSlide.init(myOpMode.hardwareMap, myOpMode.telemetry);
-        */
 
         manipulator = new Manipulator();
         manipulator.init(myOpMode.hardwareMap, myOpMode.telemetry);

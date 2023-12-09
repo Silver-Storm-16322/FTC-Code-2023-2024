@@ -71,7 +71,8 @@ public class Vision {
             myOpMode.idle();
         }
 
-        /*
+        /* -- Camera Calibration Stuff --
+
         // Setup gain and exposure.
         ExposureControl exposureControl = visionPortal.getCameraControl(ExposureControl.class);
         GainControl gainControl = visionPortal.getCameraControl(GainControl.class);
@@ -102,6 +103,7 @@ public class Vision {
         // Set temperature.
         wbControl.setWhiteBalanceTemperature(TEMPERATURE);
          */
+
         // Tell user that the april tags were successfully initialized
         myOpMode.telemetry.addData("->","Vision successfully initialized.");
     }
@@ -152,31 +154,6 @@ public class Vision {
 
         // Return the team prop that the AI has the most confidence in.
         return detectedTeamProp;
-    }
-
-    public HashMap<Integer, AprilTagDetection> getAprilTagDetections(double allianceMultiplier) {
-
-        // Get all detected AprilTags
-        List <AprilTagDetection> detectedAprilTags = aprilTagProcessor.getDetections();
-
-        // Create an empty list to store all of the AprilTags that might be useful to the alliance.
-        HashMap<Integer, AprilTagDetection> detectedTeamAprilTags = new HashMap<>();
-
-        // Loop through all of the AprilTags that the robot can see and add all of the tags relevant to
-        // the alliance to a list.
-        for (AprilTagDetection tagDetection : detectedAprilTags) {
-
-            // Remove the april tag if it isn't relevant to the robot's alliance.
-            // Otherwise, add it to a new list containing all of the april tags relevant to the robot.
-            if (tagDetection.id < 4 && allianceMultiplier == -1 * -1) {
-                detectedTeamAprilTags.put(tagDetection.id, tagDetection);
-            } else if (tagDetection.id > 3 && allianceMultiplier == 1){
-                detectedTeamAprilTags.put(tagDetection.id, tagDetection);
-            }
-        }
-
-        // Return all of the team relevant AprilTags.
-        return detectedTeamAprilTags;
     }
 }
 
